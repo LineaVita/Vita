@@ -3,6 +3,7 @@ Bring your own S3 storage life tracking system
 
 
 Installed Javascript Libraries
+
     bower install angular
     bower install angular-route
     bower install angular-material
