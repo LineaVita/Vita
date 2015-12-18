@@ -14,15 +14,9 @@
     
     <title>Vita</title>
   </head>  
-  <body>
-    
-    
-    
-    
-  
-    
-    
-    
+  <body ng-app="vita">
+    <ng-view></ng-view>
+       
     <!-- 3rd Party javascript -->
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -30,7 +24,14 @@
     <script src="/bower_components/angular-route/angular-route.min.js"></script>
     <script src="/bower_components/angular-material/angular-material.min.js"></script>
 
+    <!-- Services -->
+    <script src="/services/AWSService.js"></script>
+    <script src="/services/lokiService.js"></script>
+
+    <!-- Controllers -->
+    <script src="/controllers/homeController.js"></script>
+
     <!-- App javascript -->
-    <script src="/js/app.js"></script>
+    <script src="/js/app.js"></script>    
   </body>
 </html>
