@@ -3,17 +3,41 @@ Bring your own S3 storage life tracking system
 
 
 File Structure
+
     /
     /posts
     /posts/year/month
     /friends
     /files
     /files/year/month
+
+# Objects
+Post
+
+    Body
+    Date/Time
+    Location
+    Files
+    Tags
+
+
+File
+
+    Filename
+    Uri
+
+
+
+Location
     
-Posting
+    DateTime
+    Latitude
+    Longitude
+    
 
 
 
+# Insall
 Installed Javascript Libraries
 
     bower install angular
