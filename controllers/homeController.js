@@ -1,2 +1,2 @@
-angular.module('vita.controllers', []).
-  controller('homeController', function($scope) {});
+vitaApp.controller('homeController', ['$scope', function($scope) {
+}]);

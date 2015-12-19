@@ -15,6 +15,27 @@
     <title>Vita</title>
   </head>  
   <body ng-app="vita">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Vita</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#configure">Configure</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
     <ng-view></ng-view>
        
     <!-- 3rd Party javascript -->
@@ -23,15 +44,19 @@
     <script src="/bower_components/angular/angular.min.js"></script>
     <script src="/bower_components/angular-route/angular-route.min.js"></script>
     <script src="/bower_components/angular-material/angular-material.min.js"></script>
-
-    <!-- Services -->
-    <script src="/services/AWSService.js"></script>
-    <script src="/services/lokiService.js"></script>
-
-    <!-- Controllers -->
-    <script src="/controllers/homeController.js"></script>
+    <script src="bower_components/pouchdb/dist/pouchdb.min.js"></script>
+    <script src="bower_components/angular-pouchdb/angular-pouchdb.min.js"></script>
 
     <!-- App javascript -->
     <script src="/js/app.js"></script>    
+    
+    <!-- Services -->
+    <script src="/services/AWSService.js"></script>
+    <script src="/services/localDBService.js"></script>
+
+    <!-- Controllers -->
+    <script src="/controllers/homeController.js"></script>
+    <script src="/controllers/configureController.js"></script>
+
   </body>
 </html>
