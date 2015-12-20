@@ -14,8 +14,8 @@ File Structure
 # Objects
 Post
 
-    Body
-    Date/Time
+    DateTime
+    Text
     Location
     Files
     Tags
@@ -37,7 +37,7 @@ Location
 
 
 
-# Insall
+# Install
 Installed Javascript Libraries
 
     bower install angular
