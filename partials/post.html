@@ -1,12 +1,13 @@
-<div class="container">
+<div class="container" ng-controller="postController">
   <div class="col-xs-offset-1 col-xs-10 col-md-offset-1 col-md-10">
     <h1>Post</h1>
     <div class="form-group">
-      <label for="postTime"></label>
+      <label id="postDateTime">{{ Post.getDateString() }}</label>
     </div>
     <div class="form-group">
       <label for="postText">Create posting</label>
-      <textarea class="form-control" id="postText" name="postText" placeholder="Enter your post here."></textarea>
+      <textarea class="form-control" id="postText" name="postText" placeholder="Enter your post here." ng-model="Post.Text"></textarea>
     </div>
+    <input type="submit" ng-click="savePost(Post)" class="btn btn-default" value="Save" />
   </div>
 </div>
