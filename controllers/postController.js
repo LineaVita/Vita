@@ -5,7 +5,7 @@ vitaApp.controller('postController', ['$scope', '$routeParams', '$location',
     var post = {};
     
     post.DateTime = Date.now();   
-    post.Text = "Testing";
+    post.Text = "";
     post.getDateString = function() {
       var d = new Date(this.DateTime);
       return d.toLocaleDateString() + " " + d.toLocaleTimeString()

@@ -1,13 +1,26 @@
-<div class="container">
+<div class="container" ng-controller="configureController">
   <h1>Vita Configuration</h1>
-  <div class="col-xs-offset-1 col-xs-10 col-md-offset-1 col-md-10">
-    <div class="form-group">
-      <label for="awsKey">AWS Key</label>
-      <input type="text" class="form-control" id="awsKey" placeholder="AWS Key">
-    </div>
-    <div class="form-group">
-      <label for="awsSecret">AWS Secret</label>
-      <input type="password" class="form-control" id="awsSecret" placeholder="AWS Secret">
-    </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <fieldset class="standard">
+      <legend>AWS Settings</legend>
+      <div class="form-group">
+        <md-checkbox ng-model="Configuration.UseAWS" id="useAWS" aria-label="Use AWS">
+              Save to Amazon Web Services
+        </md-checkbox>
+      </div>
+      <div class="form-group">
+        <label for="awsKey">AWS Key</label>
+        <input type="text" class="form-control" id="awsKey" placeholder="AWS Key" ng-model="Configuration.AWSKey" ng-disabled="!Configuration.UseAWS">
+      </div>
+      <div class="form-group">
+        <label for="awsSecret">AWS Secret</label>
+        <input type="password" class="form-control" id="awsSecret" placeholder="AWS Secret" ng-model="Configuration.AWSSecret" ng-disabled="!Configuration.UseAWS">
+      </div>
+      <div class="form-group">
+        <label for="awsSecret">AWS Bucket</label>
+        <input type="password" class="form-control" id="awsBucket" placeholder="AWS Secret" ng-model="Configuration.AWSBucketName" ng-disabled="!Configuration.UseAWS">
+      </div>
+      <input type="submit" ng-click="saveConfig(Configuration)" class="btn btn-default" value="Save" />
+    </fieldset>
   </div>
 </div>

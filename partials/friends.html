@@ -1,0 +1,26 @@
+<div class="container" ng-controller="friendsController">
+  <h1>Friends</h1>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <md-content style="height: 500px;">
+      <md-list layout-padding>
+        <md-list-item class="md-3-line" ng-repeat="friend in Friends">
+          <md-card>
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">{{ friend.FirstName + " " + friend.LastName }}</span>
+                <span class="md-subhead">Small</span>
+              </md-card-title-text>
+              <md-card-title-media>
+                <div class="md-media-sm card-media"></div>
+              </md-card-title-media>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button>View</md-button>
+              <md-button>Delete</md-button>
+            </md-card-actions>
+          </md-card>         
+        </md-list-item>
+      </md-list>
+    </md-content>
+  </div>
+</div>

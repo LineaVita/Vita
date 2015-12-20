@@ -48,6 +48,6 @@ Installed Javascript Libraries
     bower install --save pouchdb
     bower install node-uuid
     bower install --save angular-pouchdb
-    
+    bower install angular-messages
 
 
