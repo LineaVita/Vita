@@ -1,5 +1,14 @@
 <div class="container" ng-controller="friendsController">
-  <h1>Friends</h1>
+  <div class="container">
+    <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+      <h1>Friends</h1>  
+    </div>
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+     <md-button class="md-icon-button" aria-label="Add Friend" ng-href="#friend">
+        <md-icon md-svg-icon="img/icons/ic_add_circle_black_24px.svg"></md-icon>
+      </md-button>
+    </div>
+  </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <md-content style="height: 500px;" class="md-padding" layout="row" layout-wrap layout-align="left start" layout-xs="column">
       <md-list layout-padding>
