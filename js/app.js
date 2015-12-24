@@ -1,4 +1,4 @@
-var vitaApp = angular.module('vita', ['ngRoute', 'pouchdb','ngMaterial'])
+var vitaApp = angular.module('vita', ['ngRoute', 'pouchdb','ngMaterial', 'angular-uuid'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.
 	when("/home", {templateUrl: "partials/home.html", controller: "homeController"}).

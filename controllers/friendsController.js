@@ -1,11 +1,24 @@
-vitaApp.controller('friendsController', ['$scope', '$location', 
-  function($scope, $location) {
-    
-  $scope.getFriends = function(){
-    var friends = [{ Id: "895b3103-5d1a-4382-85bd-aedf7b0e5790", FirstName:"Bob", LastName:"Maxwell"}, { Id:"507c3cf4-6524-4e9e-a458-94440b506589" , FirstName:"Joe", LastName:"Maxwell"}];
-    return friends;
-  }
-  
-  $scope.Friends = $scope.getFriends();
+vitaApp.controller('friendsController', ['$scope', '$location', 'pouchDB', '$q',
+  function($scope, $location, pouchDB, $q) {
+    var db = pouchDB("friends");
+                                         
+    $scope.getFriends = function() {
+      var deferred = $q.defer();
+      
+      db.allDocs({ include_docs: true, attachments: true })
+        .then(function(docs){
+          var output = [];
+
+          for (i = 0, len = docs.rows.length; i < len; i++) { 
+              output.push(docs.rows[i].doc);
+          }
+
+          return deferred.resolve(output);
+        });
+      
+      return deferred.promise;
+    }
+
+    $scope.getFriends().then(function(friends) { $scope.Friends = friends });
  
 }]);
