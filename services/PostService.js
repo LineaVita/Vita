@@ -5,6 +5,14 @@ function(uuid, pouchDB, $q) {
   //Setup the database for friends
   postService.db = pouchDB("posts");
   
+  //Create an index for dates
+  postService.db.createIndex({ index: { fields: ['DateTime'] }})
+  .then(function (result) {
+      // yo, a result
+    }).catch(function (err) {
+      // ouch, an error
+    });
+  
   //Save ref to uuid
   postService.uuid = uuid;
   
@@ -50,9 +58,29 @@ function(uuid, pouchDB, $q) {
     }
     
     return deferred.promise;   
+  };
+  
+  //Get a specific post from the database
+  postService.GetPost = function(id) {
+    var deferred = $q.defer();
+    
+    postService.db.get(post._id)
+    .then(function(doc) {
+      deferred.resolve(doc);
+    });
+        
+    return deferred.promise; 
+  };
+  
+  //Returns posts for a recent period of time
+  postService.GetRecentPosts = function() {
+     
+  };
+  
+  //Returns posts in a time period
+  postService.GetPostsInRange = function(startDate, endDate) {
+    
   }
-  
-  
   
   
   return postService;  

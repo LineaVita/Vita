@@ -8,4 +8,7 @@ var vitaApp = angular.module('vita', ['ngRoute', 'pouchdb','ngMaterial', 'angula
 	when("/friend", {templateUrl: "partials/friend.html", controller: "friendController"}).
 	when("/friend/:friendId", {templateUrl: "partials/friend.html", controller: "friendController"}).
 	otherwise({redirectTo:"/home"});
-}]);
+}])
+.config(function(pouchDBProvider, POUCHDB_METHODS) {
+	
+});

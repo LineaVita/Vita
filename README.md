@@ -34,6 +34,17 @@ Location
     Latitude
     Longitude
     
+    
+Friend
+    
+    FirstName
+    LastName
+    Email
+    Twitter
+    PrimaryPhone
+    SecondaryPhone    
+    BirthDate
+    
 
 
 
@@ -49,5 +60,6 @@ Installed Javascript Libraries
     bower install node-uuid
     bower install --save angular-pouchdb
     bower install angular-messages
+    bower install pouchdb-find
 
 

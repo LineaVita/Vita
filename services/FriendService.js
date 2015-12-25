@@ -5,6 +5,9 @@ function(uuid, pouchDB, $q) {
   //Setup the database for friends
   friendService.db = pouchDB("friends");
   
+  //Create an index for Friend by Name
+  friendService.db.createIndex({ index: { fields: ['LastName', 'FirstName'] } });
+  
   //Save ref to uuid
   friendService.uuid = uuid;
   
