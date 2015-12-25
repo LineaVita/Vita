@@ -72,16 +72,47 @@ function(uuid, pouchDB, $q) {
     return deferred.promise; 
   };
   
-  //Returns posts for a recent period of time
+  //Returns posts for a recent period of time (90 days)
   postService.GetRecentPosts = function() {
-     
+    var deferred = $q.defer();
+    
+    var now = new Date();
+    var start = new Date();
+    start.setDate(start.getDate() - 90);
+    
+    postService.GetPostsInRange(start, now)
+    .then(function(posts) {
+      deferred.resolve(posts);
+    });
+        
+    return deferred.promise;  
   };
   
   //Returns posts in a time period
   postService.GetPostsInRange = function(startDate, endDate) {
+    var deferred = $q.defer();
     
-  }
-  
+    db.find({
+      selector: {
+        $and: [
+          { DateTime: { $gte: startDate } },
+          { DateTime: { $lte: endDate } }
+        ],
+        sort: [ {DateTime: 'desc'} ]    
+      }
+    })
+    .then(function(posts) {
+        var output = [];
+
+        for (i = 0, len = posts.rows.length; i < len; i++) { 
+            output.push(posts.rows[i].doc);
+        }
+
+        return deferred.resolve(output);
+    });
+    
+    return deferred.promise; 
+  }  
   
   return postService;  
 }]);
