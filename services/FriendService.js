@@ -26,6 +26,17 @@ function(uuid, pouchDB, $q) {
     return deferred.promise;
   };
   
+  friendService.getFriend = function(id) {
+    var deferred = $q.defer();
+    
+    friendService.db.get(id)
+        .then(function(doc) {
+          return deferred.resolve(doc);
+        });
+    
+    return deferred.promise;
+  }
+  
   //Create a new friend
   friendService.newFriend = function(){
     var friend = {};
@@ -56,21 +67,33 @@ function(uuid, pouchDB, $q) {
     var deferred = $q.defer();
 
     if (friend != null) {
+      //If the friend._id is null it is new
       if (friend._id == null) {
         friend._id = uuid.v4();
 
         friendService.db.post(friend)
-          .then(function(output) {
-            return deferred.resolve(output);
-          });
+        .then(function(output) {
+          return deferred.resolve(output);
+        });
       } else {
+        //Try to load the friend to get the rev
         friendService.db.get(friend._id)
         .then(function(doc) {
           if (doc != null) {
+            //Found the doc so set the rev to the friend
+            friend._rev = doc._rev;
+
+            //Perform a put on the friend
             friendService.db.put(friend)
-              .then(function(output) {
-                return deferred.resolve(output);
-              });
+            .then(function(output) {
+              return deferred.resolve(output);
+            });
+          } else {
+            //Didn't find the doc so just save the new one
+            friendService.db.post(friend)
+            .then(function(output) {
+              return deferred.resolve(output);
+            });
           }
         })
         .catch(function (err) {
