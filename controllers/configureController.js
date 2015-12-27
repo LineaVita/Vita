@@ -1,5 +1,5 @@
-vitaApp.controller('configureController', ['$scope', '$location', 
-  function($scope, $location) {
+vitaApp.controller('configureController', ['$scope', '$location', 'FriendService',
+  function($scope, $location, configurationService) {
   $scope.newConfig = function(){
     var config = {};
     
@@ -12,9 +12,10 @@ vitaApp.controller('configureController', ['$scope', '$location',
   }
 
   $scope.loadConfig = function(){
-    //TODO try to load the config
-    
-    return null;
+    configurationService.LoadConfiguration()
+    .then(function(output) {
+      return output;
+    });
   }
   
   $scope.getConfig = function() {
@@ -28,10 +29,10 @@ vitaApp.controller('configureController', ['$scope', '$location',
   }
   
   $scope.saveConfig = function(config) {
-    //TODO save the config
-    
-    
-    $location.path('/home');
+    configurationService.SaveConfiguration(config)
+    .then(function(output) {
+      $location.path('/home');        
+    });
   }
   
   $scope.Configuration = $scope.getConfig();
