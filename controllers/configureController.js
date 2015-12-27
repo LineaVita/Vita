@@ -1,31 +1,12 @@
-vitaApp.controller('configureController', ['$scope', '$location', 'FriendService',
-  function($scope, $location, configurationService) {
-  $scope.newConfig = function(){
-    var config = {};
+vitaApp.controller('configureController', ['$scope', '$location', 'ConfigurationService',
+function($scope, $location, configurationService) {
+  $scope.Configuration = {};
     
-    config.UseAWS = false;
-    config.AWSKey = "";
-    config.AWSSecret = "";
-    config.AWSBucketName = "";
-    
-    return config;
-  }
-
-  $scope.loadConfig = function(){
-    configurationService.LoadConfiguration()
-    .then(function(output) {
-      return output;
-    });
-  }
-  
   $scope.getConfig = function() {
-    var config = $scope.loadConfig();
-    
-    if (config == null) {
-      config = $scope.newConfig();    
-    }
-    
-    return config;
+    configurationService.LoadConfiguration()
+    .then(function(config) {
+      $scope.Configuration = config;     
+    });    
   }
   
   $scope.saveConfig = function(config) {
@@ -35,6 +16,6 @@ vitaApp.controller('configureController', ['$scope', '$location', 'FriendService
     });
   }
   
-  $scope.Configuration = $scope.getConfig();
+  $scope.getConfig();
  
 }]);
