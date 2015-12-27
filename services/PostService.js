@@ -102,6 +102,7 @@ function(uuid, pouchDB, $q) {
       }
     })
     .then(function(posts) {
+        //loop through and just return the actual posts.
         var output = [];
 
         for (i = 0, len = posts.rows.length; i < len; i++) { 
