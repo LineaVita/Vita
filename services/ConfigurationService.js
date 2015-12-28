@@ -26,10 +26,38 @@ function(pouchDB, $q) {
 
   //Save the settings to the database
   configurationService.SaveConfiguration = function(configuration) {
-    configurationSerivce.SaveSetting('UseAWS', configuration.UseAWS);
-    configurationSerivce.SaveSetting('AWSKey', configuration.AWSKey);
-    configurationSerivce.SaveSetting('AWSSecret', configuration.AWSSecret);
-    configurationSerivce.SaveSetting('AWSBucketName', configuration.AWSBucketName);
+    var deferred = $q.defer(); 
+    var i = 0;
+    
+    configurationService.SaveSetting('UseAWS', configuration.UseAWS)
+    .then(function() {
+      i++;
+      
+      if (i>=4) { return deferred.resolve(true); }
+    });
+    
+    configurationService.SaveSetting('AWSKey', configuration.AWSKey)
+    .then(function() {
+      i++;
+      
+      if (i>=4) { return deferred.resolve(true); }
+    });
+    
+    configurationService.SaveSetting('AWSSecret', configuration.AWSSecret)
+    .then(function() {
+      i++;
+      
+      if (i>=4) { return deferred.resolve(true); }      
+    });
+    
+    configurationService.SaveSetting('AWSBucketName', configuration.AWSBucketName)
+    .then(function() {
+      i++;
+      
+      if (i>=4) { return deferred.resolve(true); }
+    });
+    
+    return deferred.promise;
   };
 
   configurationService.NewConfig = function() {
@@ -44,25 +72,37 @@ function(pouchDB, $q) {
   };
 
   configurationService.SaveSetting = function(name, value) {
-      configurationService.GetSettingByName(name)
-      .then(function(setting) {
-        if (setting != null) {
-          setting.value = value;
+    var deferred = $q.defer();
 
-          configurationService.db.put(setting);
-        } else {
-          setting = { _id:name, 'value':value };
+    configurationService.GetSettingByName(name)
+    .then(function(setting) {
+      if (setting != null) {
+        setting.value = value;
 
-          configurationService.db.post(setting);
-        }
-      });
+        configurationService.db.put(setting)
+        .then(function(output) { 
+          deferred.resolve(output) 
+        });
+      } else {
+        setting = { _id:name, 'value':value };
+
+        configurationService.db.post(setting)
+        .then(function(output) { 
+          deferred.resolve(output) 
+        });
+      }
+    });
+    
+    return deferred.promise;
   };
 
   configurationService.FindSetting = function(settingName, settings, defaultValue)
   {
     for (i = 0, len = settings.length; i < len; i++) { 
-      if (setting.Name == settingName) {
-        return setting.Value;    
+      var setting = settings[i];
+      
+      if (setting._id == settingName) {
+        return setting.value;    
       }
     }
 
@@ -75,6 +115,9 @@ function(pouchDB, $q) {
     configurationService.db.get(name)
     .then(function(doc) {
       return deferred.resolve(doc);         
+    })
+    .catch(function (err) {
+      return deferred.resolve(null);         
     });
 
     return deferred.promise;

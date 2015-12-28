@@ -12,7 +12,7 @@ function($scope, $location, configurationService) {
   $scope.saveConfig = function(config) {
     configurationService.SaveConfiguration(config)
     .then(function(output) {
-      $location.path('/home');        
+      $location.path('/home');                  
     });
   }
   

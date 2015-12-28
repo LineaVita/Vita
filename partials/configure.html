@@ -18,7 +18,7 @@
       </div>
       <div class="form-group">
         <label for="awsSecret">AWS Bucket</label>
-        <input type="password" class="form-control" id="awsBucket" placeholder="AWS Secret" ng-model="Configuration.AWSBucketName" ng-disabled="!Configuration.UseAWS">
+        <input type="text" class="form-control" id="awsBucket" placeholder="AWS Bucket" ng-model="Configuration.AWSBucketName" ng-disabled="!Configuration.UseAWS">
       </div>
       <input type="submit" ng-click="saveConfig(Configuration)" class="btn btn-default" value="Save" />
     </fieldset>
