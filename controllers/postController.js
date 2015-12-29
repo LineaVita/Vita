@@ -1,37 +1,29 @@
-vitaApp.controller('postController', ['$scope', '$routeParams', '$location', 
-  function($scope, $routeParams, $location) {
+vitaApp.controller('postController', ['$scope', '$routeParams', '$location', 'PostService',
+function($scope, $routeParams, $location, postService) {
   
   $scope.newPost = function(){
-    var post = {};
-    
-    post.DateTime = Date.now();   
-    post.Text = "";
-    post.getDateString = function() {
-      var d = new Date(this.DateTime);
-      return d.toLocaleDateString() + " " + d.toLocaleTimeString()
-    }
-       
-    return post;
+    return postService.NewPost();
   }
   
   $scope.loadPost = function(postId) {
     var post = $scope.newPost();
-    
-    //todo = load values;
   }
   
   $scope.savePost = function(post) {
-    //TODO - save the post via service
-    
-    $location.path('/home');
+    postService.SavePost(post)
+    ,then(function(output) {
+      $location.path('/home');  
+    });
   }
   
+  $scope.Post = $scope.newPost();
   
   //Set the current post to work with
-  if ($routeParams.postId == null) {
-    $scope.Post = $scope.newPost();
-  } else {
-    $scope.Post = $scope.loadPost($routeParams.postId);
+  if ($routeParams.postId != null) {
+    postService.GetPost($routeParams.postId)
+    .then(function(post) {
+      $scope.Post = post;
+    });
   }  
   
 }]);

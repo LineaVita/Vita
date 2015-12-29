@@ -115,5 +115,18 @@ function(uuid, pouchDB, $q) {
     return deferred.promise; 
   }  
   
+  postService.NewPost = function() {
+    var post = {};
+    
+    post.DateTime = Date.now();   
+    post.Text = "";
+    post.getDateString = function() {
+      var d = new Date(this.DateTime);
+      return d.toLocaleDateString() + " " + d.toLocaleTimeString()
+    }
+       
+    return post;
+  };
+  
   return postService;  
 }]);
