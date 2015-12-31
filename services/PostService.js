@@ -3,56 +3,48 @@ function(uuid, pouchDB, $q) {
   var postService = {};
   
   //Setup the database for friends
-  postService.db = pouchDB("posts");
+  postService.db = pouchDB("postings");
   
   //Create an index for dates
-  postService.db.createIndex({ index: { fields: ['DateTime'] }})
-  .then(function (result) {
-      // yo, a result
-    }).catch(function (err) {
-      // ouch, an error
-    });
+  postService.db.createIndex({ index: { fields: ['DateTime'] }});
   
   //Save ref to uuid
   postService.uuid = uuid;
   
   //Save the post to the database
-  postService.SavePost = function(post) {
+  postService.SavePost = function(entry) {
     var deferred = $q.defer();
 
-    if (post != null) {
+    if (entry != null) {
       //if null then a new post
-      if (post._id == null) {
-        post._id = uuid.v4();
+      if (entry._id == null) {
+        entry._id = uuid.v4();
 
-        postService.db.post(post)
+        postService.db.post(entry)
         .then(function(output) {
           return deferred.resolve(output);
         });
       } else {
         //Try to load the post
-        postService.db.get(post._id)
+        postService.GetPost(entry._id)
         .then(function(doc) {
           if (doc != null) {
             //found the post so pull the rev out of it and
             //put it on the post
-            post._rev = doc._rev;
+            entry._rev = doc._rev;
             
             //Save the post to db
-            postService.db.put(post)
+            postService.db.put(entry)
             .then(function(output) {
-              return deferred.resolve(output);
+              deferred.resolve(output);
             });
           } else {
             //not found so a new post
-            postService.db.post(post)
+            postService.db.post(entry)
             .then(function(output) {
-              return deferred.resolve(output);
+              deferred.resolve(output);
             });
           }
-        })
-        .catch(function (err) {
-          console.log(err);
         });   
       }
     }
@@ -64,9 +56,12 @@ function(uuid, pouchDB, $q) {
   postService.GetPost = function(id) {
     var deferred = $q.defer();
     
-    postService.db.get(post._id)
+    postService.db.get(id)
     .then(function(doc) {
       deferred.resolve(doc);
+    })
+    .catch(function (err) {
+      deferred.resolve(null);         
     });
         
     return deferred.promise; 
@@ -92,7 +87,7 @@ function(uuid, pouchDB, $q) {
   postService.GetPostsInRange = function(startDate, endDate) {
     var deferred = $q.defer();
     
-    db.find({
+    postService.db.find({
       selector: {
         $and: [
           { DateTime: { $gte: startDate } },
@@ -109,23 +104,19 @@ function(uuid, pouchDB, $q) {
             output.push(posts.rows[i].doc);
         }
 
-        return deferred.resolve(output);
+        deferred.resolve(output);
     });
     
     return deferred.promise; 
   }  
   
   postService.NewPost = function() {
-    var post = {};
+    var entry = {};
     
-    post.DateTime = Date.now();   
-    post.Text = "";
-    post.getDateString = function() {
-      var d = new Date(this.DateTime);
-      return d.toLocaleDateString() + " " + d.toLocaleTimeString()
-    }
+    entry.PostDateTime = Date.now();   
+    entry.Text = "";
        
-    return post;
+    return entry;
   };
   
   return postService;  

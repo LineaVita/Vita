@@ -23,7 +23,7 @@ function(uuid, pouchDB, $q) {
             output.push(docs.rows[i].doc);
         }
 
-        return deferred.resolve(output);
+        deferred.resolve(output);
       });
 
     return deferred.promise;
@@ -34,7 +34,7 @@ function(uuid, pouchDB, $q) {
     
     friendService.db.get(id)
         .then(function(doc) {
-          return deferred.resolve(doc);
+          deferred.resolve(doc);
         });
     
     return deferred.promise;
@@ -59,7 +59,7 @@ function(uuid, pouchDB, $q) {
 
     friendService.db.get(id)
       .then(function(doc) {
-        return deferred.resolve(doc);         
+        deferred.resolve(doc);         
       });
 
     return deferred.promise;
@@ -76,7 +76,7 @@ function(uuid, pouchDB, $q) {
 
         friendService.db.post(friend)
         .then(function(output) {
-          return deferred.resolve(output);
+          deferred.resolve(output);
         });
       } else {
         //Try to load the friend to get the rev
@@ -89,13 +89,13 @@ function(uuid, pouchDB, $q) {
             //Perform a put on the friend
             friendService.db.put(friend)
             .then(function(output) {
-              return deferred.resolve(output);
+              deferred.resolve(output);
             });
           } else {
             //Didn't find the doc so just save the new one
             friendService.db.post(friend)
             .then(function(output) {
-              return deferred.resolve(output);
+              deferred.resolve(output);
             });
           }
         })

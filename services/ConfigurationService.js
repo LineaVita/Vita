@@ -33,28 +33,28 @@ function(pouchDB, $q) {
     .then(function() {
       i++;
       
-      if (i>=4) { return deferred.resolve(true); }
+      if (i>=4) { deferred.resolve(true); }
     });
     
     configurationService.SaveSetting('AWSKey', configuration.AWSKey)
     .then(function() {
       i++;
       
-      if (i>=4) { return deferred.resolve(true); }
+      if (i>=4) { deferred.resolve(true); }
     });
     
     configurationService.SaveSetting('AWSSecret', configuration.AWSSecret)
     .then(function() {
       i++;
       
-      if (i>=4) { return deferred.resolve(true); }      
+      if (i>=4) { deferred.resolve(true); }      
     });
     
     configurationService.SaveSetting('AWSBucketName', configuration.AWSBucketName)
     .then(function() {
       i++;
       
-      if (i>=4) { return deferred.resolve(true); }
+      if (i>=4) { deferred.resolve(true); }
     });
     
     return deferred.promise;
@@ -114,10 +114,10 @@ function(pouchDB, $q) {
 
     configurationService.db.get(name)
     .then(function(doc) {
-      return deferred.resolve(doc);         
+      deferred.resolve(doc);         
     })
     .catch(function (err) {
-      return deferred.resolve(null);         
+      deferred.resolve(null);         
     });
 
     return deferred.promise;
@@ -134,7 +134,7 @@ function(pouchDB, $q) {
           output.push(docs.rows[i].doc);
       }
 
-      return deferred.resolve(output);
+      deferred.resolve(output);
     });
 
     return deferred.promise;
