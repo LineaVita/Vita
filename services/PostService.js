@@ -1,12 +1,25 @@
-vitaApp.factory('PostService', ['uuid', 'pouchDB', '$q', 
-function(uuid, pouchDB, $q) {
+vitaApp.factory('PostService', ['uuid', 'pouchDB', '$q', 'broadcastService',
+function(uuid, pouchDB, $q, broadcastService) {
   var postService = {};
+  
+  postService.Ready = false;
+  postService.Broadcast = broadcastService;
   
   //Setup the database for friends
   postService.db = pouchDB("postings");
   
+  var dateIndex = { index: { 
+      name: "postDateTimeIndex",
+      fields: ['PostDateTime'] 
+    }
+  };
+
   //Create an index for dates
-  postService.db.createIndex({ index: { fields: ['DateTime'] }});
+  postService.db.createIndex(dateIndex)
+  .then(function() {
+    postService.Ready = true;
+    postService.Broadcast.Send('PostServiceReady', null);
+  });
   
   //Save ref to uuid
   postService.uuid = uuid;
@@ -75,7 +88,7 @@ function(uuid, pouchDB, $q) {
     var start = new Date();
     start.setDate(start.getDate() - 90);
     
-    postService.GetPostsInRange(start, now)
+    postService.GetPostsSince(start)
     .then(function(posts) {
       deferred.resolve(posts);
     });
@@ -100,10 +113,37 @@ function(uuid, pouchDB, $q) {
         //loop through and just return the actual posts.
         var output = [];
     
-        if (posts != null 
-            && posts.rows != null) {
-          for (i = 0, len = posts.rows.length; i < len; i++) { 
-              output.push(posts.rows[i].doc);
+        if (posts != null && posts.docs != null) {
+          for (i = 0, len = posts.docs.length; i < len; i++) { 
+              output.push(posts.docs[i]);
+          }
+        }
+
+        deferred.resolve(output);
+    })
+    .catch(function (err) {
+      deferred.resolve(null);         
+    });
+    
+    return deferred.promise; 
+  } 
+  
+  postService.GetPostsSince = function(startDate) {
+    var deferred = $q.defer();
+    
+    var select = {
+      selector: { PostDateTime: { $gte: startDate.valueOf() } },
+      sort: [ {PostDateTime: 'desc'} ]    
+    };
+    
+    postService.db.find(select)
+    .then(function(posts) {
+        //loop through and just return the actual posts.
+        var output = [];
+    
+        if (posts != null && posts.docs != null) {
+          for (i = 0, len = posts.docs.length; i < len; i++) { 
+              output.push(posts.docs[i]);
           }
         }
 

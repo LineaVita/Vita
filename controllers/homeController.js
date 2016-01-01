@@ -3,12 +3,18 @@ function($scope, postService) {
   $scope.RecentPosts = [];
   
   $scope.getRecentPosts = function() {
-    postService.GetRecentPosts()
-    .then(function(posts) {
-      $scope.RecentPosts = posts;
+      postService.GetRecentPosts()
+      .then(function(posts) {
+        $scope.RecentPosts = posts;
     });
-  }
+  };
   
-  $scope.getRecentPosts();
+  $scope.$on('PostServiceReady', function(event, args){
+    $scope.getRecentPosts();
+  });
+  
+  if (postService.Ready) {
+    $scope.getRecentPosts();  
+  }  
   
 }]);
