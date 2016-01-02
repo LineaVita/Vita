@@ -35,6 +35,8 @@ function(uuid, pouchDB, $q, broadcastService) {
 
         postService.db.post(entry)
         .then(function(output) {
+          postService.Broadcast.Send('PostSaved', entry);
+          
           return deferred.resolve(output);
         });
       } else {
@@ -49,12 +51,16 @@ function(uuid, pouchDB, $q, broadcastService) {
             //Save the post to db
             postService.db.put(entry)
             .then(function(output) {
+              postService.Broadcast.Send('PostSaved', entry);
+              
               deferred.resolve(output);
             });
           } else {
             //not found so a new post
             postService.db.post(entry)
             .then(function(output) {
+              postService.Broadcast.Send('PostSaved', entry);
+              
               deferred.resolve(output);
             });
           }

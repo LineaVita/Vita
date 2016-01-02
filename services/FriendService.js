@@ -1,13 +1,20 @@
-vitaApp.factory('FriendService', ['uuid', 'pouchDB', '$q', 
-function(uuid, pouchDB, $q) {
+vitaApp.factory('FriendService', ['uuid', 'pouchDB', '$q', 'broadcastService',
+function(uuid, pouchDB, $q, broadcastService) {
   var friendService = {};
+  
+  friendService.Ready = false;
+  friendService.Broadcast = broadcastService;
   
   //Setup the database for friends
   friendService.db = pouchDB("friends");
   
   //Create an index for Friend by Name
-  friendService.db.createIndex({ index: { fields: ['LastName', 'FirstName'] } });
-  
+  friendService.db.createIndex({ index: { fields: ['LastName', 'FirstName'] } })
+  .then(function() {
+    friendService.Ready = true;
+    friendService.Broadcast.Send('FriendServiceReady', null);
+  });
+    
   //Save ref to uuid
   friendService.uuid = uuid;
   
@@ -16,15 +23,15 @@ function(uuid, pouchDB, $q) {
     var deferred = $q.defer();
 
     friendService.db.allDocs({ include_docs: true, attachments: true })
-      .then(function(docs){
-        var output = [];
+    .then(function(docs){
+      var output = [];
 
-        for (i = 0, len = docs.rows.length; i < len; i++) { 
-            output.push(docs.rows[i].doc);
-        }
+      for (i = 0, len = docs.rows.length; i < len; i++) { 
+          output.push(docs.rows[i].doc);
+      }
 
-        deferred.resolve(output);
-      });
+      deferred.resolve(output);
+    });
 
     return deferred.promise;
   };
@@ -76,6 +83,8 @@ function(uuid, pouchDB, $q) {
 
         friendService.db.post(friend)
         .then(function(output) {
+          friendService.Broadcast.Send('FriendSaved', friend);
+          
           deferred.resolve(output);
         });
       } else {
@@ -89,12 +98,16 @@ function(uuid, pouchDB, $q) {
             //Perform a put on the friend
             friendService.db.put(friend)
             .then(function(output) {
+              friendService.Broadcast.Send('FriendSaved', friend);
+              
               deferred.resolve(output);
             });
           } else {
             //Didn't find the doc so just save the new one
             friendService.db.post(friend)
             .then(function(output) {
+              friendService.Broadcast.Send('FriendSaved', friend);
+              
               deferred.resolve(output);
             });
           }
