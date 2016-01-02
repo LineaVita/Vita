@@ -1,6 +1,8 @@
-vitaApp.controller('homeController', ['$scope', 'PostService',
-function($scope, postService) {
+vitaApp.controller('homeController', ['$scope', 'PostService', 'awsService',
+function($scope, postService, awsService) {
+  $scope.PostService = postService;
   $scope.RecentPosts = [];
+  
   
   $scope.getRecentPosts = function() {
       postService.GetRecentPosts()

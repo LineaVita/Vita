@@ -1,5 +1,6 @@
 vitaApp.controller('postController', ['$scope', '$routeParams', '$location', 'PostService',
 function($scope, $routeParams, $location, postService) {
+  $scope.PostService = postService;
   
   $scope.savePost = function(post) {
     postService.SavePost(post)
@@ -9,8 +10,7 @@ function($scope, $routeParams, $location, postService) {
   }
   
   $scope.getPostDateString = function() {
-    var d = new Date($scope.Post.PostDateTime);
-    return d.toLocaleDateString() + " " + d.toLocaleTimeString()
+    return $scope.PostService.GetPostDateString($scope.Post.PostDateTime)
   };
   
   $scope.Post = postService.NewPost();

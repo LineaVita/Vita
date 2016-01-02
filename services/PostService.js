@@ -171,5 +171,10 @@ function(uuid, pouchDB, $q, broadcastService) {
     return entry;
   };
   
+  postService.GetPostDateString = function(postDateTime) {
+    var d = new Date(postDateTime);
+    return d.toLocaleDateString() + " " + d.toLocaleTimeString()
+  };
+  
   return postService;  
 }]);
