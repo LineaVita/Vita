@@ -5,6 +5,7 @@ function($rootScope) {
   awsService.rootScope = $rootScope;
   
   //TODO load
+  awsService.UseAws = true;
   awsService.AwsKey = "";
   awsService.SecretKey = "";
   awsService.Bucket = "";
@@ -27,19 +28,27 @@ function($rootScope) {
   
     
   $rootScope.$on('FriendSaved', function(event, friend){
-    //Save friend to aws
+    if (awsService.UseAws) {
+      awsService.SaveFriend(friend);
+    }    
   });
   
   $rootScope.$on('FriendDeleted', function(event, friend){
-    //Save friend to aws
+    if (awsService.UseAws) {
+      awsService.DeleteFriend(friend);
+    }    
   });
   
   $rootScope.$on('PostSaved', function(event, post){
-    //Save Post to aws
+    if (awsService.UseAws) {
+      awsService.SavePost(post);
+    }    
   });
   
-  $rootScope.$on('FriendDeleted', function(event, post){
-    //Save Post to aws
+  $rootScope.$on('PostDeleted', function(event, post){
+    if (awsService.UseAws) {
+      awsService.DeletePost(post);
+    }    
   });
   
   
