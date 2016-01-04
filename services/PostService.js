@@ -2,12 +2,15 @@ vitaApp.factory('PostService', ['uuid', 'pouchDB', '$q', 'broadcastService',
 function(uuid, pouchDB, $q, broadcastService) {
   var postService = {};
   
-  postService.Ready = false;
+  //Set variables
   postService.Broadcast = broadcastService;
-  
-  //Setup the database for friends
+  postService.uuid = uuid;
+  postService.Ready = false;
+    
+  //Setup the database
   postService.db = pouchDB("postings");
   
+  //Create Indexes
   var dateIndex = { index: { 
       name: "postDateTimeIndex",
       fields: ['PostDateTime'] 
@@ -21,8 +24,16 @@ function(uuid, pouchDB, $q, broadcastService) {
     postService.Broadcast.Send('PostServiceReady', null);
   });
   
-  //Save ref to uuid
-  postService.uuid = uuid;
+  //New Post
+  postService.NewPost = function() {
+    var entry = {};
+    
+    entry.PostDateTime = Date.now();   
+    entry.Text = "";
+    entry.Location = null;
+       
+    return entry;
+  };
   
   //Save the post to the database
   postService.SavePost = function(entry) {
@@ -161,16 +172,7 @@ function(uuid, pouchDB, $q, broadcastService) {
     
     return deferred.promise; 
   }  
-  
-  postService.NewPost = function() {
-    var entry = {};
-    
-    entry.PostDateTime = Date.now();   
-    entry.Text = "";
-       
-    return entry;
-  };
-  
+   
   postService.GetPostDateString = function(postDateTime) {
     var d = new Date(postDateTime);
     return d.toLocaleDateString() + " " + d.toLocaleTimeString()

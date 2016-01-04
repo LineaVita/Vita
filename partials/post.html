@@ -2,7 +2,10 @@
   <div class="col-xs-offset-1 col-xs-10 col-md-offset-1 col-md-10">
     <h1>Post</h1>
     <div class="form-group">
-      <label id="postDateTime">{{ getPostDateString() }}</label>
+      <label id="postDateTime">{{ GetPostDateString() }}</label>
+    </div>
+    <div class="form-group" ng-disabled="Post.Location==null">
+      <label id="postDateTime" ng-bind="GetLocationString()"></label>
     </div>
     <div class="form-group">
       <label for="postText">Create posting</label>

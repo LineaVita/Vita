@@ -1,6 +1,14 @@
-vitaApp.controller('postController', ['$scope', '$routeParams', '$location', 'PostService',
-function($scope, $routeParams, $location, postService) {
+vitaApp.controller('postController', ['$scope', '$routeParams', '$location', 'PostService', 'GPSService',
+function($scope, $routeParams, $location, postService, gpsService) {
   $scope.PostService = postService;
+  $scope.GPSService = gpsService;
+  
+  $scope.GetGPS = function() {
+    $scope.GPSService.GetLocation()
+    .then(function (position){
+      $scope.Post.Location = position;
+    });
+  }
   
   $scope.savePost = function(post) {
     postService.SavePost(post)
@@ -9,11 +17,20 @@ function($scope, $routeParams, $location, postService) {
     });
   }
   
+  $scope.GetLocationString = function() {
+    if ($scope.Post != null && $scope.Post.Location != null) {
+      var pos = $scope.Post.Location;
+      
+      return "Latitude: " + pos.Latitude + ", Longitude: " + pos.Longitude;
+    }
+  }
+  
   $scope.getPostDateString = function() {
     return $scope.PostService.GetPostDateString($scope.Post.PostDateTime)
   };
   
   $scope.Post = postService.NewPost();
+  $scope.GetGPS();
   
   //Set the current post to work with
   if ($routeParams.postId != null) {
