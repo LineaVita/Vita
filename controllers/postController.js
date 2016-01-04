@@ -18,11 +18,7 @@ function($scope, $routeParams, $location, postService, gpsService) {
   }
   
   $scope.GetLocationString = function() {
-    if ($scope.Post != null && $scope.Post.Location != null) {
-      var pos = $scope.Post.Location;
-      
-      return "Latitude: " + pos.Latitude + ", Longitude: " + pos.Longitude;
-    }
+    return $scope.PostService.GetLocationString($scope.Post.Location);
   }
   
   $scope.GetPostDateString = function() {

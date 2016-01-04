@@ -178,5 +178,11 @@ function(uuid, pouchDB, $q, broadcastService) {
     return d.toLocaleDateString() + " " + d.toLocaleTimeString()
   };
   
+  postService.GetLocationString = function(location) {
+    if (location != null) {
+      return "Latitude: " + location.Latitude + ", Longitude: " + location.Longitude;
+    }
+  }
+  
   return postService;  
 }]);
