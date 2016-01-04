@@ -25,7 +25,7 @@ function($scope, $routeParams, $location, postService, gpsService) {
     }
   }
   
-  $scope.getPostDateString = function() {
+  $scope.GetPostDateString = function() {
     return $scope.PostService.GetPostDateString($scope.Post.PostDateTime)
   };
   
