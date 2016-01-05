@@ -7,7 +7,7 @@
         <md-list-item class="md-2-line" ng-repeat="post in RecentPosts">
           <div class="md-list-item-text" layout="column">
             <h3>{{ PostService.GetPostDateString(post.PostDateTime) }}</h3>
-            <h3>{{ PostService.GetLocationString(post.Location) }}</h3>
+            <h6>{{ PostService.GetLocationString(post.Location) }}</h6>
             <p>{{ post.Text }}</p>
           </div>
         </md-list-item>
