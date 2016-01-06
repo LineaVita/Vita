@@ -31,7 +31,7 @@ function(uuid, pouchDB, $q, broadcastService) {
     entry.PostDateTime = Date.now();   
     entry.Text = "";
     entry.Location = null;
-       
+           
     return entry;
   };
   

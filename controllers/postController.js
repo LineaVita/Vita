@@ -8,18 +8,32 @@ function($scope, $routeParams, $location, postService, gpsService) {
     .then(function (position){
       $scope.Post.Location = position;
     });
-  }
+  };
   
-  $scope.savePost = function(post) {
+  $scope.SavePost = function(post) {
     postService.SavePost(post)
     .then(function(output) {
       $location.path('/home');  
     });
-  }
+  };
+  
+  $scope.FileNameChanged = function(imgControl) {
+    if ($scope.Post != null) {
+      var files = imgControl.files;
+      var namesArr = [];
+      
+      for (i = 0, len = files.length; i < len; i++) { 
+          namesArr.push(files[i].name)
+      }
+      
+      $scope.Post.Filename = namesArr.join(' ,');
+      $scope.$apply();
+    }
+  };
   
   $scope.GetLocationString = function() {
     return $scope.PostService.GetLocationString($scope.Post.Location);
-  }
+  };
   
   $scope.GetPostDateString = function() {
     return $scope.PostService.GetPostDateString($scope.Post.PostDateTime)

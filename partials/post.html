@@ -1,20 +1,28 @@
-<div class="container" ng-controller="postController">
-  <div class="col-xs-offset-1 col-xs-10 col-md-offset-1 col-md-10">
-    <h1>Post</h1>
-    <div class="form-group">
-      <label id="postDateTime">{{ GetPostDateString() }}</label>
-    </div>
-    <div class="form-group" ng-disabled="Post.Location==null">
-      <label id="postDateTime" ng-bind="GetLocationString()"></label>
-    </div>
-    <div class="form-group">
-      <label for="postText">Create posting</label>
-      <textarea class="form-control" id="postText" name="postText" placeholder="Enter your post here." ng-model="Post.Text"></textarea>
-    </div>
-    <div class="form-group">
-      <label for="postImage">Select an Image</label>
-      <input type="file" id="postImage" ng-file-select="onFileSelect($files)" multiple />  
-    </div>
-    <input type="submit" ng-click="savePost(Post)" class="btn btn-default" value="Save" />
-  </div>
+<div ng-controller="postController" layout="column" ng-cloak>
+  <md-content layout-padding>
+    <form name="projectForm">
+      <h1>Post</h1>
+      <div class="form-group">
+        <label id="postDateTime">{{ GetPostDateString() }}</label>
+      </div>
+      <div class="form-group" ng-disabled="Post.Location==null">
+        <label id="postDateTime" ng-bind="GetLocationString()"></label>
+      </div>
+      <md-input-container class="md-block">
+        <label for="postText">Enter your post here.</label>
+        <textarea class="form-control" id="postText" name="postText" ng-model="Post.Text" required></textarea>
+        <div ng-messages="projectForm.description.$error">
+          <div ng-message="required">This is required.</div>
+        </div>
+      </md-input-container>
+      <div class="form-group">
+        <md-button class="md-raised">
+          <label for="postImage">Select an image</label>
+        </md-button>
+        <label id="postFilename">{{ Post.Filename }}</label>
+        <input type="file" id="postImage" onchange="angular.element(this).scope().FileNameChanged(this)" multiple style="display:none;"></input>  
+      </div>
+      <md-button type="submit" ng-click="SavePost(Post)" class="md-raised md-primary">Save</md-button>
+    </form>
+  </md-content>
 </div>
