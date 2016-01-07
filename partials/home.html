@@ -1,18 +1,22 @@
-<div class="container">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <h1>Welcome to Vita</h1>
-    
-    <md-content style="height: 500px;" class="md-padding" layout="row" layout-wrap layout-align="space-between start" >
-      <md-list>
-        <md-list-item class="md-3-line md-long-text" ng-repeat="post in RecentPosts">
-          <div class="md-list-item-text" layout="column">
-            <h3>{{ PostService.GetPostDateString(post.PostDateTime) }}</h3>
-            <h6>{{ PostService.GetLocationString(post.Location) }}</h6>
+<div ng-controller="homeController" layout="column" ng-cloak>  
+  <md-content  class="md-padding">
+    <section layout="row" layout-align="center start">
+      <div class="md-display-1">Welcome to Vita</div>
+    </section>
+    <section layout="row" layout-align="center start" >
+      <div flex="80" flex-md="85" flex-sm="90" flex-xs="100" layout="column">
+        <md-card ng-repeat="post in RecentPosts" flex="100" flex-md="100" flex-sm="100" flex-xs="100" ng-style="{'background-color':'white'}" >
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">{{ PostService.GetPostDateString(post.PostDateTime) }}</span>
+              <span class="md-subhead">{{ PostService.GetLocationString(post.Location) }}</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-content>
             <p>{{ post.Text }}</p>
-          </div>
-        </md-list-item>
-      </md-list>
-      
-    </md-content>
-  </div>
+          </md-card-content>
+        </md-card>
+      </div>
+    </section>
+  </md-content>
 </div>

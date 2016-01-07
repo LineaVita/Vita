@@ -11,4 +11,10 @@ var vitaApp = angular.module('vita', ['ngRoute', 'pouchdb','ngMaterial', 'angula
 }])
 .config(function(pouchDBProvider, POUCHDB_METHODS) {
 	
+})
+.config(function($mdThemingProvider) {
+  $mdThemingProvider.theme('default')
+    .primaryPalette('grey')
+    .accentPalette('orange')
+		.backgroundPalette('blue-grey');
 });

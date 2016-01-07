@@ -1,28 +1,30 @@
 <div ng-controller="postController" layout="column" ng-cloak>
-  <md-content layout-padding>
-    <form name="projectForm">
-      <h1>Post</h1>
-      <div class="form-group">
-        <label id="postDateTime">{{ GetPostDateString() }}</label>
-      </div>
-      <div class="form-group" ng-disabled="Post.Location==null">
-        <label id="postDateTime" ng-bind="GetLocationString()"></label>
-      </div>
-      <md-input-container class="md-block">
-        <label for="postText">Enter your post here.</label>
-        <textarea class="form-control" id="postText" name="postText" ng-model="Post.Text" required></textarea>
-        <div ng-messages="projectForm.description.$error">
-          <div ng-message="required">This is required.</div>
+  <md-content layout-padding class="md-padding">
+    <section layout="row" layout-align="center start" >
+      <form name="projectForm" flex="80" flex-md="85" flex-sm="90" flex-xs="100" layout="column" ng-style="{background:'white'}">
+        <h1>Post</h1>
+        <div class="form-group">
+          <label id="postDateTime">{{ GetPostDateString() }}</label>
         </div>
-      </md-input-container>
-      <div class="form-group">
-        <md-button class="md-raised">
-          <label for="postImage">Select an image</label>
-        </md-button>
-        <label id="postFilename">{{ Post.Filename }}</label>
-        <input type="file" id="postImage" onchange="angular.element(this).scope().FileNameChanged(this)" multiple style="display:none;"></input>  
-      </div>
-      <md-button type="submit" ng-click="SavePost(Post)" class="md-raised md-primary">Save</md-button>
-    </form>
+        <div class="form-group" ng-disabled="Post.Location==null">
+          <label id="postDateTime" ng-bind="GetLocationString()"></label>
+        </div>
+        <md-input-container class="md-block">
+          <label for="postText">Enter your post here.</label>
+          <textarea class="form-control" id="postText" name="postText" ng-model="Post.Text" required></textarea>
+          <div ng-messages="projectForm.description.$error">
+            <div ng-message="required">This is required.</div>
+          </div>
+        </md-input-container>
+        <div class="form-group">
+          <md-button class="md-raised">
+            <label for="postImage">Select an image</label>
+          </md-button>
+          <label id="postFilename">{{ Post.Filename }}</label>
+          <input type="file" id="postImage" onchange="angular.element(this).scope().FileNameChanged(this)" multiple style="display:none;"></input>  
+        </div>
+        <md-button type="submit" ng-click="SavePost(Post)" class="md-raised md-accent">Save</md-button>
+      </form>
+    </section>
   </md-content>
 </div>
