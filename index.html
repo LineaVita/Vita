@@ -16,16 +16,43 @@
   <body ng-app="vita">
     <md-toolbar layout="row">
       <div class="md-toolbar-tools">
-        <md-button class="menu" hide-gt-sm>
-          <img src="/img/icons/ic_menu_black_24px.svg"></img>
+        <md-menu md-offset="0 -7"  hide-gt-xs>
+          <md-button aria-label="Open menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+            <img src="/img/icons/ic_menu_black_24px.svg"></img>
+          </md-button>
+          <md-menu-content width="2">
+            <md-menu-item>
+              <md-button class="md-raised" aria-label="Home" ng-href="#home" >
+                Home
+              </md-button>
+            </md-menu-item>
+            <md-menu-item>
+              <md-button class="md-raised" aria-label="Post" ng-href="#post" >
+                Post
+              </md-button>
+            </md-menu-item>
+            <md-menu-item>
+              <md-button class="md-raised" aria-label="Friends" ng-href="#friends" >
+                Friends
+              </md-button>
+            </md-menu-item>
+            <md-menu-item>
+              <md-button class="md-raised" aria-label="Configure" ng-href="#configure" >
+                Configure
+              </md-button>
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
+        <a ng-href="#home"><span class="md-display-1">Vita</span></a>
+        <span flex="5"></span>
+        <md-button class="md-raised" aria-label="Post" ng-href="#post" hide show-gt-xs>
+          Post
         </md-button>
-        <md-button ng-href="#home">
-          <h2>
-            Vita
-          </h2>
-        </md-button >
+        <md-button class="md-raised" aria-label="Friends" ng-href="#friends" hide show-gt-xs>
+          Friends
+        </md-button>
         <span flex></span>
-        <md-button class="md-raised" aria-label="Configure" ng-href="#configure">
+        <md-button class="md-raised" aria-label="Configure" ng-href="#configure" hide show-gt-xs>
           Configure
         </md-button>
       </div>    
