@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <!-- 3rd Party CSS -->
-    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/bower_components/angular-material/angular-material.min.css" rel="stylesheet">
     
     <!-- App CSS -->
@@ -15,34 +14,26 @@
     <title>Vita</title>
   </head>  
   <body ng-app="vita">
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Vita</a>
-        </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li><a href="#post">Post</a></li>
-            <li><a href="#friends">Friends</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#configure">Configure</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    <md-toolbar layout="row">
+      <div class="md-toolbar-tools">
+        <md-button class="menu" hide-gt-sm>
+          <img src="/img/icons/ic_menu_black_24px.svg"></img>
+        </md-button>
+        <md-button ng-href="#home">
+          <h2>
+            Vita
+          </h2>
+        </md-button >
+        <span flex></span>
+        <md-button class="md-raised" aria-label="Configure" ng-href="#configure">
+          Configure
+        </md-button>
+      </div>    
+    </md-toolbar>
     <ng-view></ng-view>
        
     <!-- 3rd Party javascript -->
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/bower_components/angular/angular.min.js"></script>
     <script src="/bower_components/angular-route/angular-route.min.js"></script>
     <script src="/bower_components/angular-animate/angular-animate.min.js"></script>

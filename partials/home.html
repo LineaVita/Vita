@@ -5,7 +5,7 @@
     </section>
     <section layout="row" layout-align="center start" >
       <div flex="80" flex-md="85" flex-sm="90" flex-xs="100" layout="column">
-        <md-card ng-repeat="post in RecentPosts" flex="100" flex-md="100" flex-sm="100" flex-xs="100" ng-style="{'background-color':'white'}" >
+        <md-card  ng-repeat="post in RecentPosts" flex="100" flex-md="100" flex-sm="100" flex-xs="100" ng-style="{'background-color':'white'}" >
           <md-card-title>
             <md-card-title-text>
               <span class="md-headline">{{ PostService.GetPostDateString(post.PostDateTime) }}</span>
