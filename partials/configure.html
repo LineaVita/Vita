@@ -1,26 +1,34 @@
-<div class="container" ng-controller="configureController">
-  <h1>Vita Configuration</h1>
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <fieldset class="standard">
-      <legend>AWS Settings</legend>
-      <div class="form-group">
-        <md-checkbox ng-model="Configuration.UseAWS" id="useAWS" aria-label="Use AWS">
-              Save to Amazon Web Services
-        </md-checkbox>
-      </div>
-      <div class="form-group">
-        <label for="awsKey">AWS Key</label>
-        <input type="text" class="form-control" id="awsKey" placeholder="AWS Key" ng-model="Configuration.AWSKey" ng-disabled="!Configuration.UseAWS">
-      </div>
-      <div class="form-group">
-        <label for="awsSecret">AWS Secret</label>
-        <input type="password" class="form-control" id="awsSecret" placeholder="AWS Secret" ng-model="Configuration.AWSSecret" ng-disabled="!Configuration.UseAWS">
-      </div>
-      <div class="form-group">
-        <label for="awsSecret">AWS Bucket</label>
-        <input type="text" class="form-control" id="awsBucket" placeholder="AWS Bucket" ng-model="Configuration.AWSBucketName" ng-disabled="!Configuration.UseAWS">
-      </div>
-      <input type="submit" ng-click="saveConfig(Configuration)" class="btn btn-default" value="Save" />
-    </fieldset>
-  </div>
+<div ng-controller="configureController" layout="column" ng-cloak >
+  <md-content layout-padding class="md-padding AppPageHeader">
+    <section layout="row" layout-align="start start">
+      <div class="md-display-1">Configuration</div>
+    </section>  
+  </md-content>
+  <md-content layout-padding class="md-padding AppPageBody" >
+    <section layout="row" layout-align="center start" >
+      <form name="friendForm" flex="80" flex-md="85" flex-sm="90" flex-xs="100" layout="column" ng-style="{background:'white'}">  
+        <fieldset class="standard">
+          <legend>AWS Settings</legend>
+          <md-input-container class="md-block">
+            <md-checkbox ng-model="Configuration.UseAWS" id="useAWS" aria-label="Use AWS">
+                  Save to Amazon Web Services
+            </md-checkbox>
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label for="awsKey">AWS Key</label>
+            <input type="text" class="form-control" id="awsKey" placeholder="AWS Key" ng-model="Configuration.AWSKey" ng-disabled="!Configuration.UseAWS">
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label for="awsSecret">AWS Secret</label>
+            <input type="password" class="form-control" id="awsSecret" placeholder="AWS Secret" ng-model="Configuration.AWSSecret" ng-disabled="!Configuration.UseAWS">
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label for="awsSecret">AWS Bucket</label>
+            <input type="text" class="form-control" id="awsBucket" placeholder="AWS Bucket" ng-model="Configuration.AWSBucketName" ng-disabled="!Configuration.UseAWS">
+          </md-input-container>
+        </fieldset>
+        <md-button type="submit" ng-click="saveConfig(Configuration)" class="md-raised md-accent">Save</md-button>
+      </form>
+    </section>
+  </md-content>
 </div>

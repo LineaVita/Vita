@@ -1,23 +1,30 @@
-<div class="container" ng-controller="friendController">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <h1>Friend</h1>
-    <div class="form-group">
-      <label for="firstName">First Name</label>
-      <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="Friend.FirstName">
-    </div>
-    <div class="form-group">
-      <label for="firstName">Last Name</label>
-      <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="Friend.LastName">
-    </div>
-    <div class="form-group">
-      <label for="firstName">Email Address</label>
-      <input type="text" class="form-control" id="emailAddress" placeholder="First Name" ng-model="Friend.EmailAddress">
-    </div>
-    <div class="form-group">
-      <label for="firstName">Twitter</label>
-      <input type="text" class="form-control" id="twitter" placeholder="First Name" ng-model="Friend.Twitter">
-    </div>
-
-    <input type="submit" ng-click="saveAndRedirect(Friend)" class="btn btn-default" value="Save" />
-  </div>
+<div ng-controller="friendController" layout="column" ng-cloak >
+  <md-content layout-padding class="md-padding AppPageHeader">
+    <section layout="row" layout-align="start start">
+      <div class="md-display-1">Friend</div>
+    </section>  
+  </md-content>
+  <md-content layout-padding class="md-padding AppPageBody" >
+    <section layout="row" layout-align="center start" >
+      <form name="friendForm" flex="80" flex-md="85" flex-sm="90" flex-xs="100" layout="column" ng-style="{background:'white'}">
+        <md-input-container class="md-block">
+          <label for="firstName">First Name</label>
+          <input type="text" class="form-control" id="firstName" ng-model="Friend.FirstName">          
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label for="firstName">Last Name</label>
+          <input type="text" class="form-control" id="lastName" ng-model="Friend.LastName">
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label for="firstName">Email Address</label>
+          <input type="text" class="form-control" id="emailAddress" ng-model="Friend.EmailAddress">
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label for="firstName">Twitter</label>
+          <input type="text" class="form-control" id="twitter" ng-model="Friend.Twitter">
+        </md-input-container>
+        <md-button type="submit" ng-click="saveAndRedirect(Friend)" class="md-raised md-accent">Save</md-button>
+      </form>
+    </section>
+  </md-content>
 </div>

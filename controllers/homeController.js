@@ -8,6 +8,8 @@ function($scope, postService, awsService) {
       postService.GetRecentPosts()
       .then(function(posts) {
         $scope.RecentPosts = posts;
+        
+        $scope.$apply;
     });
   };
   

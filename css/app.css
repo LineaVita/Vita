@@ -6,6 +6,20 @@
   padding-bottom:8px;
 }
 
-ng-view {
-  height: calc(100% - 150px) !important;
+.PostCard {
+
+}
+
+.AppPageContent {
+  
+}
+
+.AppPageBody {
+  height: calc(100% - 300px) !important;
+}
+
+.AppPageHeader {
+  height: 50px !important; 
+  overflow: hidden;
+  
 }

@@ -1,13 +1,20 @@
 <div ng-controller="postController" layout="column" ng-cloak>
-  <md-content layout-padding class="md-padding">
+  <md-content layout-padding class="md-padding AppPageHeader">
+    <section layout="row" layout-align="start start">
+      <div class="md-display-1">Post</div>
+    </section>  
+  </md-content> 
+  <md-content layout-padding class="md-padding AppPageBody">
     <section layout="row" layout-align="center start" >
       <form name="projectForm" flex="80" flex-md="85" flex-sm="90" flex-xs="100" layout="column" ng-style="{background:'white'}">
-        <h1>Post</h1>
-        <div class="form-group">
-          <label id="postDateTime">{{ GetPostDateString() }}</label>
-        </div>
-        <div class="form-group" ng-disabled="Post.Location==null">
-          <label id="postDateTime" ng-bind="GetLocationString()"></label>
+        <div layout="row" layout-xs="column" layout-sm="column">
+          <div flex-gt-sm="25" layout-padding class="md-padding" >
+            <label id="postDateTime">{{ GetPostDateString() }}</label>  
+          </div>
+          <div flex hide-xs hide-sm>&nbsp;</div>
+          <div ng-disabled="Post.Location==null" flex-gt-sm="40" layout-padding class="md-padding">
+            <label id="postLocation" ng-bind="GetLocationString()"></label>
+          </div>          
         </div>
         <md-input-container class="md-block">
           <label for="postText">Enter your post here.</label>

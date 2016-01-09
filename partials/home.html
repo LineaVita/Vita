@@ -1,27 +1,25 @@
-<div ng-controller="homeController" layout="column" ng-cloak layout-fill>
-  <md-content layout-padding class="md-padding">
+<div ng-controller="homeController" layout="column" ng-cloak >
+  <md-content layout-padding class="md-padding AppPageHeader">
     <section layout="row" layout-align="center start">
       <div class="md-display-1">Welcome to Vita</div>
     </section>  
   </md-content>
-  <md-content  layout-padding class="md-padding" >
-    <section class="md-padding" layout="row" layout-align="center start" ng-repeat="post in RecentPosts" >
-      <div flex="70" flex-md="80" flex-sm="90" flex-xs="100" layout="column">
-        <md-card ng-style="{'background-color':'white'}">
-          <md-card-header>
-            <md-card-header-text>
-              <span class="md-title" >{{ PostService.GetPostDateString(post.PostDateTime) }}</span>
-              <span class="md-subhead" >{{ PostService.GetLocationString(post.Location) }}</span>
-            <md-card-header-text>
-          <md-card-header>
-          <md-card-actions layout="row" layout-align="end center">
-            <md-button ng-href="" class="md-raised md-accent">Edit</md-button>            
-          </md-card-actions>  
-          <md-card-content>
-            <p>{{ post.Text }}</p>
-          </md-card-content>
-        </md-card>  
-      </div>      
+  <md-content  layout-padding class="md-padding AppPageBody" >
+    <section class="md-padding" layout="row" layout-align="center start" layout-wrap layout-align="space-between start" >
+      <md-card ng-repeat="post in RecentPosts" flex="100" ng-style="{'background-color':'white'}" class="PostCard" >
+        <md-card-header>
+          <md-card-header-text>
+            <span class="md-title" >{{ PostService.GetPostDateString(post.PostDateTime) }}</span>
+            <span class="md-subhead" >{{ PostService.GetLocationString(post.Location) }}</span>
+          </md-card-header-text>
+        </md-card-header>   
+        <md-card-content>
+          <p>{{ post.Text}}</p>
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button ng-href="" class="md-raised md-accent">Edit</md-button>            
+        </md-card-actions>  
+      </md-card>  
     </section>
   </md-content>      
 </div>
