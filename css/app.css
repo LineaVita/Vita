@@ -1,25 +1,47 @@
-#postText {
-  height:150px;
+body {
+  overflow: hidden;
 }
 
-#footer {
-  padding-bottom:8px;
+#postText {
+  height:150px;
 }
 
 .PostCard {
 
 }
 
-.AppPageContent {
-  
-}
-
-.AppPageBody {
-  height: calc(100% - 300px) !important;
-}
-
-.AppPageHeader {
+#AppHeader {
   height: 50px !important; 
-  overflow: hidden;
-  
 }
+
+#AppContent {
+  top: 50px !important;
+  height: calc(100% - 130px);
+  overflow:hidden;
+}
+
+#AppContentsHeader {
+  height:50px !important;
+  overflow: hidden;
+}
+
+#AppContentsBody {
+  height: calc(100% - 190px) !important;
+  overflow:scroll;
+}
+
+
+#AppFooter {
+  top: calc(100% - 70px);
+  height: 70px !important; 
+  margin:0;
+  padding:0;
+  bottom: calc(100% - 0px);
+}
+
+
+
+
+
+
+

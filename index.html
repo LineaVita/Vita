@@ -13,7 +13,7 @@
     <title>Vita</title>
   </head>  
   <body ng-cloak>
-    <md-toolbar layout="row">
+    <md-toolbar layout="row" id="AppHeader">
       <div class="md-toolbar-tools">
         <md-menu md-offset="0 -7"  hide-gt-xs>
           <md-button aria-label="Open menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
@@ -56,12 +56,12 @@
         </md-button>
       </div>    
     </md-toolbar>
-    <ng-view id="AppPage" class="AppPageContent"></ng-view>
-    <md-bottom-sheet id="footer">
+    <ng-view id="AppContent"></ng-view>
+    <div id="AppFooter" >
         <div layout="row" layout-align="center center">
-            <h2>Powered by Vita</h2>
-        </div>
-    </md-bottom-sheet>          
+          <div class="md-display-1">Powered by Vita</div>
+        </div>    
+    </div>
 
     <!-- 3rd Party javascript -->
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
