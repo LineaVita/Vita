@@ -2,7 +2,10 @@
   height:150px;
 }
 
-#friend_card {
-
+#footer {
+  padding-bottom:8px;
 }
 
+ng-view {
+  height: calc(100% - 150px) !important;
+}

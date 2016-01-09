@@ -1,9 +1,8 @@
-<html>
+<html lang="en" ng-app="vita">
   <head>
-    <!-- Set up metadata -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">        
     
     <!-- 3rd Party CSS -->
     <link href="/bower_components/angular-material/angular-material.min.css" rel="stylesheet">
@@ -13,7 +12,7 @@
     
     <title>Vita</title>
   </head>  
-  <body ng-app="vita">
+  <body ng-cloak>
     <md-toolbar layout="row">
       <div class="md-toolbar-tools">
         <md-menu md-offset="0 -7"  hide-gt-xs>
@@ -57,13 +56,13 @@
         </md-button>
       </div>    
     </md-toolbar>
-    <ng-view></ng-view>
-    <md-bottom-sheet>
+    <ng-view class="AppContent"></ng-view>
+    <md-bottom-sheet id="footer">
         <div layout="row" layout-align="center center">
             <h2>Powered by Vita</h2>
         </div>
-    </md-bottom-sheet>
-       
+    </md-bottom-sheet>          
+
     <!-- 3rd Party javascript -->
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/bower_components/angular/angular.min.js"></script>
