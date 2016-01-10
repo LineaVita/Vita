@@ -1,5 +1,5 @@
 <div ng-controller="friendsController" layout="column" ng-cloak >
-  <md-content layout-padding class="md-padding" >
+  <md-content layout-padding class="md-padding" id="AppContentsHeader">
     <section layout="row" layout-align="center start" >
       <div flex="25">     
         <div class="md-display-1">Friends</div>
@@ -12,7 +12,7 @@
       </div>
     </section>
   </md-content>
-  <md-content layout-padding class="md-padding" >    
+  <md-content layout-padding class="md-padding" id="AppContentsBody" >    
     <section class="md-padding" layout="row" layout-wrap layout-align="space-between start">
       <md-card class="friend_card" ng-repeat="friend in Friends" flex="30" flex-md="45" flex-sm="100" flex-xs="100" ng-style="{'background-color':'white'}">
         <md-card-title >
