@@ -54,7 +54,6 @@ Installed Javascript Libraries
     bower install angular
     bower install angular-route
     bower install angular-material
-    bower install bootstrap
     bower install aws-sdk-js
     bower install --save pouchdb
     bower install node-uuid
