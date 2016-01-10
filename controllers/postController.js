@@ -40,17 +40,20 @@ function($scope, $routeParams, $location, postService, gpsService) {
   };
   
   $scope.Post = postService.NewPost();
-  $scope.GetGPS();
   
   //Set the current post to work with
   if ($routeParams.postId != null) {
     postService.GetPost($routeParams.postId)
     .then(function(post) {
       $scope.Post = post;
+      $scope.GetLocationString();
     })
     .catch(function(error) {
       console.writeln(error);
     });
-  }  
+  }
+  else {
+    $scope.GetGPS();
+  }
   
 }]);
