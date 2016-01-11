@@ -1,8 +1,8 @@
-vitaApp.factory('fileService', ['uuid', 'pouchDB', '$q', 'broadcastService',
+vitaApp.factory('FileService', ['uuid', 'pouchDB', '$q', 'broadcastService',
 function(uuid, pouchDB, $q, broadcastService) {
   var fileService = {};
   
-  
+  fileService.uuid = uuid;
   fileService.Broadcast = broadcastService;
   
   //Setup the database for friends
@@ -11,11 +11,30 @@ function(uuid, pouchDB, $q, broadcastService) {
   fileService.LoadFile = function(fileId) {
     var deferred = $q.defer();
     
+    db.getAttachment('image', 'file')
+    .then(function(blob) {
+      deferred.resolve(blob);
+    });
+    
     return deferred.promise;
   }
   
-  fileService.SaveFile = function (fileId, file) {
+  fileService.SaveFile = function (fileId, filename, filesize, file) {
     var deferred = $q.defer();
+    
+    fileService.db.put({
+      _id: fileId,
+      Filename: filename,
+      FileSize: filesize,
+      _attachments: {
+        "file": {
+          type: file.type,
+          data: file
+        }
+      }
+    }).then(function () {
+      deferred.resolve(fileId);
+    });
     
     return deferred.promise;
   }

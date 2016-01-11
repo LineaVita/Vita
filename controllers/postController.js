@@ -2,6 +2,10 @@ vitaApp.controller('postController', ['$scope', '$routeParams', '$location', 'Po
 function($scope, $routeParams, $location, postService, gpsService, fileService) {
   $scope.PostService = postService;
   $scope.GPSService = gpsService;
+  $scope.FileService = fileService;
+  
+  $scope.ItemsToSave = 0;
+  $scope.ItemsSaved = 0;
   
   $scope.GetGPS = function() {
     $scope.GPSService.GetLocation()
@@ -11,9 +15,53 @@ function($scope, $routeParams, $location, postService, gpsService, fileService) 
   };
   
   $scope.SavePost = function(post) {
+    var fileControl = $("#postImage");
+    
+    $scope.ItemsToSave = 1;
+    
+    if (fileControl != null
+        && fileControl.files != null) {
+      
+      var fileCount = fileControl.files.length;
+      post.FileCount = fileCount;
+    
+      $scope.ItemsToSave += fileCount;
+    
+      for (var i = 0; i < fileCount; i++) {       
+        var filename = null;
+        var filesize = 0;
+        var fileId = $scope.FileService.uuid.v4;
+
+        var file = fileControl.files[i];
+
+        if ('name' in file) {
+          filename = file.name;
+        }
+
+        if ('size' in file) {
+          filesize = file.size;
+        }
+
+        post.Files.push(fileId);
+
+        $scope.FileService.SaveFile(fileId, filename, filesize, file)
+        .then(function() {
+          $scope.ItemsSaved += 1;
+
+          if ($scope.ItemsSaved == $scope.ItemsToSave) {
+            $location.path('/home');
+          }
+        });
+      }
+    }
+
     postService.SavePost(post)
-    .then(function(output) {
-      $location.path('/home');  
+    .then(function(output) {          
+      $scope.ItemsSaved += 1;
+        
+      if ($scope.ItemsSaved == $scope.ItemsToSave) {
+        $location.path('/home');
+      }
     });
   };
   
