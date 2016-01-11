@@ -19,8 +19,7 @@ function($scope, $routeParams, $location, postService, gpsService, fileService) 
     
     $scope.ItemsToSave = 1;
     
-    if (fileControl != null
-        && fileControl.files != null) {
+    if (fileControl != null && fileControl.files != null) {
       
       var fileCount = fileControl.files.length;
       post.FileCount = fileCount;
