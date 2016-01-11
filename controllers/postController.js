@@ -1,5 +1,5 @@
-vitaApp.controller('postController', ['$scope', '$routeParams', '$location', 'PostService', 'GPSService',
-function($scope, $routeParams, $location, postService, gpsService) {
+vitaApp.controller('postController', ['$scope', '$routeParams', '$location', 'PostService', 'GPSService', 'FileService',
+function($scope, $routeParams, $location, postService, gpsService, fileService) {
   $scope.PostService = postService;
   $scope.GPSService = gpsService;
   
