@@ -31,7 +31,7 @@ function($scope, $routeParams, $location, postService, gpsService, fileService) 
       for (var i = 0; i < fileCount; i++) {       
         var filename = null;
         var filesize = 0;
-        var fileId = $scope.FileService.uuid.v4;
+        var fileId = $scope.FileService.uuid.v4();
 
         var file = fileControl.files[i];
 
