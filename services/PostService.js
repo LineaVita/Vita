@@ -31,7 +31,8 @@ function(uuid, pouchDB, $q, broadcastService) {
     entry.PostDateTime = Date.now();   
     entry.Text = "";
     entry.Location = null;
-    entry.Files = [];
+    entry.FileCount = 0;
+    entry.FileIds = null;
            
     return entry;
   };

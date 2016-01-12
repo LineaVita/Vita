@@ -15,7 +15,8 @@ function($scope, $routeParams, $location, postService, gpsService, fileService) 
   };
   
   $scope.SavePost = function(post) {
-    var fileControl = $("#postImage");
+    //Not sure why we are getting an array
+    var fileControl = $("#postImage")[0];
     
     $scope.ItemsToSave = 1;
     
@@ -23,6 +24,7 @@ function($scope, $routeParams, $location, postService, gpsService, fileService) 
       
       var fileCount = fileControl.files.length;
       post.FileCount = fileCount;
+      post.FileIds = [];
     
       $scope.ItemsToSave += fileCount;
     
@@ -41,24 +43,24 @@ function($scope, $routeParams, $location, postService, gpsService, fileService) 
           filesize = file.size;
         }
 
-        post.Files.push(fileId);
+        post.FileIds.push(fileId);
 
         $scope.FileService.SaveFile(fileId, filename, filesize, file)
         .then(function() {
           $scope.ItemsSaved += 1;
 
-          if ($scope.ItemsSaved == $scope.ItemsToSave) {
+          if ($scope.ItemsSaved >= $scope.ItemsToSave) {
             $location.path('/home');
           }
         });
       }
     }
 
-    postService.SavePost(post)
+    $scope.PostService.SavePost(post)
     .then(function(output) {          
       $scope.ItemsSaved += 1;
         
-      if ($scope.ItemsSaved == $scope.ItemsToSave) {
+      if ($scope.ItemsSaved >= $scope.ItemsToSave) {
         $location.path('/home');
       }
     });
