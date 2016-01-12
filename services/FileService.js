@@ -11,13 +11,25 @@ function(uuid, pouchDB, $q, broadcastService) {
   fileService.LoadFile = function(fileId) {
     var deferred = $q.defer();
     
-    db.getAttachment('image', 'file')
+    fileService.db.getAttachment('image', 'file')
     .then(function(blob) {
       deferred.resolve(blob);
     });
     
     return deferred.promise;
   }
+  
+  fileService.GetFile = function(fileId) {
+    var deferred = $q.defer();
+    
+    fileService.db.getAttachment(fileId, 'file')
+    .then(function(blob) {
+      var url = URL.createObjectURL(blob);      
+      deferred.resolve(url);
+    });
+    
+    return deferred.promise;
+  }  
   
   fileService.SaveFile = function (fileId, filename, filesize, file) {
     var deferred = $q.defer();

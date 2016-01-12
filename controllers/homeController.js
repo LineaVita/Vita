@@ -1,7 +1,9 @@
-vitaApp.controller('homeController', ['$scope', 'PostService', 'awsService',
-function($scope, postService, awsService) {
+vitaApp.controller('homeController', ['$scope', 'PostService', 'awsService', 'FileService',
+function($scope, postService, awsService, fileService) {
   $scope.PostService = postService;
+  $scope.FileService = fileService;
   $scope.RecentPosts = [];
+  $scope.Images = {};
     
   $scope.GetRecentPosts = function() {
       postService.GetRecentPosts()
@@ -13,8 +15,8 @@ function($scope, postService, awsService) {
   };
   
   $scope.HasFile = function(post) {
-    if (post != null && post.Files != null) {
-      if (post.Files.length > 0) {
+    if (post != null && post.FileIds != null) {
+      if (post.FileIds.length > 0) {
         return true;
       }        
     }
@@ -23,10 +25,22 @@ function($scope, postService, awsService) {
   }
   
   $scope.GetFileUrl = function(post) {
-    if (post != null && post.Files != null) {
-      if (post.Files.length > 0) {
-        return '/files/' + post.Files[0];
+    
+    if (post != null && post.FileIds != null) {
+      if (post.FileIds.length > 0) {
+        var id = post.FileIds[0];
+        
+        $scope.Images[id] = null;
+                
+        $scope.FileService.GetFile(id)
+        .then(function(url) {
+          $scope.Images[id] = url;
+        });
+        
+        return $scope.Images[id];
       }        
+      
+      return null;
     }
   }
   
