@@ -46,5 +46,29 @@
               <img ng-src="{{ GetFileUrl(post) }}" class="md-card-image" ng-show="HasFile(post)">
             </div>
           </md-card-title-media>
-        </md-card-title>        
+        </md-card-title>     
               
+              
+  <md-content  layout-padding class="md-padding" id="AppContentsBody" >
+    <section class="md-padding" layout="row" layout-align="center start" layout-wrap layout-align="space-between start" >
+      <md-card ng-repeat="post in RecentPosts" flex="100" ng-style="{'background-color':'white'}" class="PostCard" >
+        <md-card-header>
+          <md-card-header-text>
+            <span class="md-title" >{{ PostService.GetPostDateString(post.PostDateTime) }}</span>
+            <span class="md-subhead" >{{ PostService.GetLocationString(post.Location) }}</span>
+          </md-card-header-text>
+        </md-card-header>   
+        <md-card-content layout="row" layout-xs="column" layout-sm="column" layout-padding class="md-padding">
+          <div class="md-media-sm card-media" flex="20" ng-show="HasFile(post)" >
+            <img ng-src="{{ GetFileUrl(post) }}" class="md-card-image" ng-show="HasFile(post)" >
+          </div>
+          <div flex >
+            <p>{{ post.Text}}</p>  
+          </div>          
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button ng-href="#post/{{ post._id }}" class="md-raised md-accent">Edit</md-button>            
+        </md-card-actions>  
+      </md-card>  
+    </section>
+  </md-content>                 
