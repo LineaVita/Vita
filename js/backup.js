@@ -27,3 +27,24 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">            
+      
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">{{ PostService.GetPostDateString(post.PostDateTime) }}</span>
+            <span class="md-subhead">{{ PostService.GetLocationString(post.Location) }}</span>
+          </md-card-title-text>
+          <md-card-title-media>
+            <div class="md-media-sm">
+              <img ng-src="{{ GetFileUrl(post) }}" class="md-card-image" ng-show="HasFile(post)">
+            </div>
+          </md-card-title-media>
+        </md-card-title>          
+              
+        <md-card-title>
+          <md-card-title-media>
+            <div class="md-media-sm card-media">
+              <img ng-src="{{ GetFileUrl(post) }}" class="md-card-image" ng-show="HasFile(post)">
+            </div>
+          </md-card-title-media>
+        </md-card-title>        
+              

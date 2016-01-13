@@ -38,6 +38,19 @@ body {
   bottom: calc(100% - 0px);
 }
 
+.card-media {
+  height:100px;
+}
+
+.md-card-image {
+  max-height:150px;
+  max-width:150px;
+}
+
+.md-card-content {
+
+}
+
 
 
 

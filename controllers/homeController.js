@@ -30,13 +30,15 @@ function($scope, postService, awsService, fileService) {
       if (post.FileIds.length > 0) {
         var id = post.FileIds[0];
         
-        $scope.Images[id] = null;
-                
-        $scope.FileService.GetFile(id)
-        .then(function(url) {
-          $scope.Images[id] = url;
-        });
-        
+        if ($scope.Images[id] == null) {
+          $scope.Images[id] = null;
+
+          $scope.FileService.GetFile(id)
+          .then(function(url) {
+            $scope.Images[id] = url;
+          });          
+        } 
+
         return $scope.Images[id];
       }        
       
