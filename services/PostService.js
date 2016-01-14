@@ -32,6 +32,7 @@ function(uuid, pouchDB, $q, broadcastService) {
     entry.Text = "";
     entry.Location = null;
     entry.FileCount = 0;
+    entry.Place = null;
     entry.FileIds = null;
            
     return entry;
@@ -182,7 +183,7 @@ function(uuid, pouchDB, $q, broadcastService) {
   
   postService.GetLocationString = function(location) {
     if (location != null) {
-      return "Latitude: " + location.Latitude + ", Longitude: " + location.Longitude;
+      return "Latitude: " + location.Latitude.toFixed(4) + ", Longitude: " + location.Longitude.toFixed(4);
     }
   }
   

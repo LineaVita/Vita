@@ -12,7 +12,7 @@
             <label id="postDateTime">{{ GetPostDateString() }}</label>  
           </div>
           <div flex hide-xs hide-sm>&nbsp;</div>
-          <div ng-disabled="Post.Location==null" flex-gt-sm="40" layout-padding class="md-padding">
+          <div ng-hide="Post.Location==null" flex-gt-sm="40" layout-padding class="md-padding">
             <label id="postLocation" ng-bind="GetLocationString()"></label>
           </div>          
         </div>
@@ -22,6 +22,10 @@
           <div ng-messages="projectForm.description.$error">
             <div ng-message="required">This is required.</div>
           </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label for="postPlace">Where are you?</label>
+          <input type="text" class="form-control" id="postPlace" name="postPlace" ng-model="Post.Place" required></textarea>
         </md-input-container>
         <div class="form-group">
           <md-button class="md-raised">
