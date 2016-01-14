@@ -12,7 +12,14 @@
           <div hide-xs  flex></div>
           <div layout="column">
             <div class="md-subhead" ng-hide="post.Place==null" > {{ post.Place }} </div>
-            <div class="md-caption" ng-hide="post.Location==null"> {{ PostService.GetLocationString(post.Location) }} </div>  
+            <div class="md-caption" ng-hide="post.Location==null">
+              <a ng-href=" {{ PostService.GetGoogleHref(post.Location) }} " target="_blank" ng-hide="Configuration==null || Configuration.GoogleApiKey==null">
+                {{ PostService.GetLocationString(post.Location, Configuration.GoogleApiKey) }} 
+              </a>
+              <div ng-show="Configuration==null || Configuration.GoogleApiKey==null">
+                {{ PostService.GetLocationString(post.Location) }}
+              </div>
+            </div>  
           </div>          
         </div>
         <div class="lv-card-body"  layout="row" layout-xs="column" layout-sm="column" layout-padding class="md-padding">

@@ -1,9 +1,12 @@
-vitaApp.controller('homeController', ['$scope', 'PostService', 'awsService', 'FileService',
-function($scope, postService, awsService, fileService) {
+vitaApp.controller('homeController', ['$scope', 'PostService', 'awsService', 'FileService', 'ConfigurationService',
+function($scope, postService, awsService, fileService, configService) {
   $scope.PostService = postService;
   $scope.FileService = fileService;
+  $scope.ConfigurationService = configService;
+  
   $scope.RecentPosts = [];
   $scope.Images = {};
+  $scope.Configuration = {};
     
   $scope.GetRecentPosts = function() {
       postService.GetRecentPosts()
@@ -45,6 +48,11 @@ function($scope, postService, awsService, fileService) {
       return null;
     }
   }
+  
+  $scope.ConfigurationService.LoadConfiguration()
+  .then(function(config) {
+    $scope.Configuration = config;    
+  });
   
   $scope.$on('PostServiceReady', function(event, args){
     $scope.GetRecentPosts();

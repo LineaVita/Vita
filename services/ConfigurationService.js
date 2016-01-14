@@ -17,6 +17,7 @@ function(pouchDB, $q) {
       output.AWSKey = configurationService.FindSetting('AWSKey', settings, null);
       output.AWSSecret = configurationService.FindSetting('AWSSecret', settings, null);
       output.AWSBucketName = configurationService.FindSetting('AWSBucketName', settings, null);
+      output.GoogleApiKey = configurationService.FindSetting('GoogleApiKey', settings, null);
 
       deferred.resolve(output);
     });      
@@ -67,6 +68,7 @@ function(pouchDB, $q) {
     config.AWSKey = "";
     config.AWSSecret = "";
     config.AWSBucketName = "";
+    config.GoogleApiKey = "";
 
     return config;
   };

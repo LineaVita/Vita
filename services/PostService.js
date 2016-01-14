@@ -183,8 +183,14 @@ function(uuid, pouchDB, $q, broadcastService) {
   
   postService.GetLocationString = function(location) {
     if (location != null) {
-      return "Latitude: " + location.Latitude.toFixed(4) + ", Longitude: " + location.Longitude.toFixed(4);
+      return "Position (" + location.Latitude.toFixed(4) + ", " + location.Longitude.toFixed(4) + ")";
     }
+  }
+  
+  postService.GetGoogleHref = function(location, api) {
+    if (location != null) {
+      return "https://www.google.com/maps/embed/v1/view?key=" + api + "&center=" +location.Latitude.toFixed(4) + "," + location.Longitude.toFixed(4)
+    }      
   }
   
   return postService;  
