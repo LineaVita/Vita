@@ -193,5 +193,11 @@ function(uuid, pouchDB, $q, broadcastService) {
     }      
   }
   
+    postService.GetGoogleHref2 = function(location) {
+    if (location != null) {
+      return "https://www.google.com/maps/@" + location.Latitude.toFixed(4) + "," + location.Longitude.toFixed(4) + ",18z";
+    }      
+  }
+  
   return postService;  
 }]);
