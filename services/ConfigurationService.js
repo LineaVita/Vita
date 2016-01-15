@@ -1,5 +1,6 @@
 vitaApp.factory('ConfigurationService', ['pouchDB', '$q', 
 function(pouchDB, $q) {
+  var settingsToSave = 6;
   var configurationService = {};
 
   //setup the db
@@ -16,6 +17,7 @@ function(pouchDB, $q) {
       output.UseAWS = configurationService.FindSetting('UseAWS', settings, false);
       output.AWSKey = configurationService.FindSetting('AWSKey', settings, null);
       output.AWSSecret = configurationService.FindSetting('AWSSecret', settings, null);
+      output.AWSRegion = configurationService.FindSetting('AWSRegion', settings, null);
       output.AWSBucketName = configurationService.FindSetting('AWSBucketName', settings, null);
       output.GoogleApiKey = configurationService.FindSetting('GoogleApiKey', settings, null);
 
@@ -34,28 +36,42 @@ function(pouchDB, $q) {
     .then(function() {
       i++;
       
-      if (i>=4) { deferred.resolve(true); }
+      if (i>=settingsToSave) { deferred.resolve(true); }
     });
     
     configurationService.SaveSetting('AWSKey', configuration.AWSKey)
     .then(function() {
       i++;
       
-      if (i>=4) { deferred.resolve(true); }
+      if (i>=settingsToSave) { deferred.resolve(true); }
     });
     
     configurationService.SaveSetting('AWSSecret', configuration.AWSSecret)
     .then(function() {
       i++;
       
-      if (i>=4) { deferred.resolve(true); }      
+      if (i>=settingsToSave) { deferred.resolve(true); }      
+    });
+    
+    configurationService.SaveSetting('AWSRegion', configuration.AWSRegion)
+    .then(function() {
+      i++;
+      
+      if (i>=settingsToSave) { deferred.resolve(true); }
     });
     
     configurationService.SaveSetting('AWSBucketName', configuration.AWSBucketName)
     .then(function() {
       i++;
       
-      if (i>=4) { deferred.resolve(true); }
+      if (i>=settingsToSave) { deferred.resolve(true); }
+    });
+    
+    configurationService.SaveSetting('GoogleApiKey', configuration.GoogleApiKey)
+    .then(function() {
+      i++;
+      
+      if (i>=settingsToSave) { deferred.resolve(true); }
     });
     
     return deferred.promise;

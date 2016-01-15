@@ -23,8 +23,19 @@
             <input type="password" class="form-control" id="awsSecret" placeholder="AWS Secret" ng-model="Configuration.AWSSecret" ng-disabled="!Configuration.UseAWS">
           </md-input-container>
           <md-input-container class="md-block">
+            <label for="awsSecret">AWS Region</label>
+            <input type="password" class="form-control" id="awsRegion" placeholder="AWS Region" ng-model="Configuration.AWSRegion" ng-disabled="!Configuration.UseAWS">
+          </md-input-container>          
+          <md-input-container class="md-block">
             <label for="awsSecret">AWS Bucket</label>
             <input type="text" class="form-control" id="awsBucket" placeholder="AWS Bucket" ng-model="Configuration.AWSBucketName" ng-disabled="!Configuration.UseAWS">
+          </md-input-container>
+        </fieldset>
+        <fieldset class="standard">
+          <legend>Google Api</legend>
+          <md-input-container class="md-block">
+            <label for="awsSecret">Google Api Key</label>
+            <input type="text" class="form-control" id="googleApiKey" placeholder="Google Maps Api Key" ng-model="Configuration.GoogleApiKey" ng-disabled="!Configuration.UseAWS">
           </md-input-container>
         </fieldset>
         <md-button type="submit" ng-click="saveConfig(Configuration)" class="md-raised md-accent">Save</md-button>
