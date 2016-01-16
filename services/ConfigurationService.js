@@ -5,7 +5,7 @@ function(pouchDB, $q) {
 
   //setup the db
   configurationService.db = pouchDB("configuration");
-
+  
   //Load the configuration settings the populate the object
   configurationService.LoadConfiguration = function() {
     var deferred = $q.defer();      
@@ -20,7 +20,7 @@ function(pouchDB, $q) {
       output.AWSRegion = configurationService.FindSetting('AWSRegion', settings, null);
       output.AWSBucketName = configurationService.FindSetting('AWSBucketName', settings, null);
       output.GoogleApiKey = configurationService.FindSetting('GoogleApiKey', settings, null);
-
+      
       deferred.resolve(output);
     });      
 
@@ -83,6 +83,7 @@ function(pouchDB, $q) {
     config.UseAWS = false;
     config.AWSKey = "";
     config.AWSSecret = "";
+    config.AWSRegion = "";
     config.AWSBucketName = "";
     config.GoogleApiKey = "";
 
