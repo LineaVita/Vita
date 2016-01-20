@@ -25,6 +25,7 @@ function($rootScope, $q, configService) {
       accessKeyId: awsService.Configuration.AWSKey, 
       secretAccessKey: awsService.Configuration.AWSSecret };
     
+    awsService.Enabled = true;
     //TODO mark as ready and deal with stuff that came in before ready.
     //Check in database for new records? 
     
