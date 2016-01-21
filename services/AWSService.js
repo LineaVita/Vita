@@ -1,11 +1,43 @@
-vitaApp.factory('awsService', ['$rootScope', '$q', 'ConfigurationService',
-function($rootScope, $q, configService) {
+vitaApp.factory('awsService', ['$rootScope', '$q', '$mdToast', 'ConfigurationService',
+function($rootScope, $q, $mdToast, configService) {
   var awsService = {};
-  
+   
   awsService.Enabled = false;
   awsService.rootScope = $rootScope;
   awsService.ConfigService = configService;
   awsService.S3 = {};
+  
+  //TODO - Move to somewhere more appropriate (ToastService?)
+  var last = {
+      bottom: false,
+      top: true,
+      left: false,
+      right: true
+    };
+  awsService.toastPosition = angular.extend({},last);
+  awsService.getToastPosition = function() {
+    awsService.sanitizePosition();
+    return Object.keys(awsService.toastPosition)
+      .filter(function(pos) { return awsService.toastPosition[pos]; })
+      .join(' ');
+  };
+  awsService.ShowToast = function(message) {
+    $mdToast.show(
+      $mdToast.simple()
+        .textContent(message)
+        .position(awsService.getToastPosition())
+        .hideDelay(3000)
+    );
+  };
+  
+  awsService.sanitizePosition = function sanitizePosition() {
+    var current = awsService.toastPosition;
+    if ( current.bottom && last.top ) current.top = false;
+    if ( current.top && last.bottom ) current.bottom = false;
+    if ( current.right && last.left ) current.left = false;
+    if ( current.left && last.right ) current.right = false;
+    last = angular.extend({},current);
+  }
   
   //TODO load
   awsService.UseAws = true;
@@ -40,7 +72,7 @@ function($rootScope, $q, configService) {
     return deferred.promise;
   }
   
-  awsService.UploadFile = function(filename, filetype, file) {
+  awsService.UploadFile = function(objectType, filename, filetype, file) {
     // Configure The S3 Object 
     AWS.config.update(awsService.Credentials);
     AWS.config.region = awsService.Configuration.AWSRegion;
@@ -58,7 +90,7 @@ function($rootScope, $q, configService) {
         }
         else {
           // Success!
-          alert('Upload Done');
+          awsService.ShowToast('Uploaded ' + objectType + ' to aws')
         }
       })
       .on('httpUploadProgress',function(progress) {
@@ -79,19 +111,19 @@ function($rootScope, $q, configService) {
         var filetype = "application/json";
         var body = JSON.stringify(post);
 
-        awsService.UploadFile(filename, filetype, body);
+        awsService.UploadFile('post', filename, filetype, body);
       }
     }
   };
   
   awsService.SaveFriend = function(friend) {
     if (awsService.Enabled) {
-      if (post != null) {
+      if (friend != null) {
         var filename = "friends/" + friend._id + '.json';
         var filetype = "application/json";
         var body = JSON.stringify(friend);
 
-        awsService.UploadFile(filename, filetype, body);
+        awsService.UploadFile('friend', filename, filetype, body);
       }    
     }
   };
