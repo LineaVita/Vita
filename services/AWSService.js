@@ -12,7 +12,7 @@ function($rootScope, $q, $mdToast, configService) {
       bottom: false,
       top: true,
       left: false,
-      right: true
+      right: true 
     };
   awsService.toastPosition = angular.extend({},last);
   awsService.getToastPosition = function() {

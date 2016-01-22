@@ -4,4 +4,4 @@ function($mdToast) {
     
   
   return toastService;
-}
+}]);
