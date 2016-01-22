@@ -116,6 +116,16 @@ function($rootScope, $q, $mdToast, configService) {
     }
   };
   
+  awsService.SaveFile = function(fileId, extension, filetype, file) {
+    if (awsService.Enabled) {
+      if (file != null) {
+        var filename = "files/" + fileId + '.' + extension;
+        
+        awsService.UploadFile('file', filename, filetype, file);
+      }
+    }
+  };
+  
   awsService.SaveFriend = function(friend) {
     if (awsService.Enabled) {
       if (friend != null) {
@@ -166,6 +176,18 @@ function($rootScope, $q, $mdToast, configService) {
   $rootScope.$on('PostDeleted', function(event, post){
     if (awsService.UseAws) {
       awsService.DeletePost(post);
+    }    
+  });
+  
+  $rootScope.$on('FileSaved', function(event, fileId, extension, filetype, file){
+    if (awsService.UseAws) {
+      awsService.SaveFile(fileId, extension, filetype, file);
+    }    
+  });
+  
+  $rootScope.$on('FileDeleted', function(event, file){
+    if (awsService.UseAws) {
+      awsService.DeleteFile(file);
     }    
   });
   

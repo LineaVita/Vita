@@ -45,6 +45,11 @@ function(uuid, pouchDB, $q, broadcastService) {
         }
       }
     }).then(function () {
+      var re = /(?:\.([^.]+))?$/;
+      var extension = re.exec(filename)[1]; 
+      
+      fileService.Broadcast.Send('FileSaved', fileId, extension, file, file);
+      
       deferred.resolve(fileId);
     });
     
