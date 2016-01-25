@@ -1,17 +1,61 @@
-vitaApp.factory('PlaceService', ['uuid', 'pouchDB', '$q', 'broadcastService',
-function(uuid, pouchDB, $q, broadcastService) {
+vitaApp.factory('PlaceService', ['uuid', 'pouchDB', '$q', 'broadcastService', 'GeodesyService',
+function(uuid, pouchDB, $q, broadcastService, geodesyService) {
   var placeService = {};
   
   //Set variables
   placeService.Broadcast = broadcastService;
   placeService.uuid = uuid;
+  placeService.GeodesyService = geodesyService;
+  
+  //Set ready state
   placeService.Ready = false;
+  placeService.NameIndexReady = false;
+  placeService.LocationIndexReady = false;
     
   //Setup the database
   placeService.db = pouchDB("places"); 
+  
+  //Create Indexes
+  var nameIndex = { index: { 
+      name: "nameIndex",
+      fields: ['Name'] 
+    }
+  };
+  
+  var locationIndex = { index: { 
+      name: "locationIndex",
+      fields: ['Latitude', 'Longitude'] 
+    }
+  };  
+
+  //Create an index for names
+  placeService.db.createIndex(nameIndex)
+  .then(function() {
+    placeService.NameIndexReady = true;
+    
+    if (placeService.LocationIndexReady) {
+      placeService.SetReady();   
+    }    
+  });
+  
+  //Create an index for names
+  placeService.db.createIndex(locationIndex)
+  .then(function() {
+    placeService.LocationIndexReady = true;
+    
+    if (placeService.NameIndexReady) {
+      placeService.SetReady();   
+    }    
+  });
+    
+  placeService.SetReady = function()
+  {
+    placeService.Ready = true;
+    placeService.Broadcast.Send('PlaceServiceReady', null);
+  }
    
   //New Post
-  placeService.NewPost = function() {
+  placeService.NewPlace = function() {
     var entry = {};
     
     entry._id = uuid.v4();
@@ -23,7 +67,11 @@ function(uuid, pouchDB, $q, broadcastService) {
     return entry;
   };
   
-   placeService.SavePost = function(entry) {
+  placeService.SavePlaceIfNew = function(placeName, latitude, longitude) {
+    
+  }
+  
+  placeService.SavePlace = function(entry) {
     var deferred = $q.defer();
 
     if (entry != null) {
@@ -70,7 +118,7 @@ function(uuid, pouchDB, $q, broadcastService) {
   };
   
   //Get a specific place from the database
-  placeService.GetPost = function(id) {
+  placeService.GetPlace = function(id) {
     var deferred = $q.defer();
     
     placeService.db.get(id)
@@ -83,6 +131,19 @@ function(uuid, pouchDB, $q, broadcastService) {
         
     return deferred.promise; 
   };
+  
+  placeService.FindPlacesNearPoint = function(latitude, longitude) {
+    var deferred = $q.defer();
+    
+    var geobox = placeService.GeodesyService.GetGeobox(latitude, longitude, 50);
+    
+    placeService.FindPlaces(geobox.MinLatitude, geobox.MaxLatitude, geobox.MinLongitude, geobox.MaxLongitude)
+    .then(function(places) {
+      deferred.resolve(places);
+    });    
+    
+    return deferred.promise;
+  }
   
   placeService.FindPlaces = function(minLat, maxLat, minLon, maxLon) {
     var deferred = $q.defer();
@@ -115,5 +176,7 @@ function(uuid, pouchDB, $q, broadcastService) {
     
     return deferred.promise; 
   } 
+  
+  return placeService;
   
 }]);
