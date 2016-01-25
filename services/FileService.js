@@ -48,7 +48,9 @@ function(uuid, pouchDB, $q, broadcastService) {
       var re = /(?:\.([^.]+))?$/;
       var extension = re.exec(filename)[1]; 
       
-      fileService.Broadcast.Send('FileSaved', fileId, extension, file, file);
+      var broadcastFile = { "FileId" : fileId, "Extension" : extension, "Filetype" : file.type, "File":file }
+      
+      fileService.Broadcast.Send('FileSaved', broadcastFile);
       
       deferred.resolve(fileId);
     });

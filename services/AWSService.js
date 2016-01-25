@@ -1,43 +1,12 @@
-vitaApp.factory('awsService', ['$rootScope', '$q', '$mdToast', 'ConfigurationService',
-function($rootScope, $q, $mdToast, configService) {
+vitaApp.factory('awsService', ['$rootScope', '$q', '$mdToast', 'ConfigurationService', 'ToastService',
+function($rootScope, $q, $mdToast, configService, toastService) {
   var awsService = {};
    
   awsService.Enabled = false;
   awsService.rootScope = $rootScope;
   awsService.ConfigService = configService;
+  awsService.ToastService = toastService;
   awsService.S3 = {};
-  
-  //TODO - Move to somewhere more appropriate (ToastService?)
-  var last = {
-      bottom: false,
-      top: true,
-      left: false,
-      right: true 
-    };
-  awsService.toastPosition = angular.extend({},last);
-  awsService.getToastPosition = function() {
-    awsService.sanitizePosition();
-    return Object.keys(awsService.toastPosition)
-      .filter(function(pos) { return awsService.toastPosition[pos]; })
-      .join(' ');
-  };
-  awsService.ShowToast = function(message) {
-    $mdToast.show(
-      $mdToast.simple()
-        .textContent(message)
-        .position(awsService.getToastPosition())
-        .hideDelay(3000)
-    );
-  };
-  
-  awsService.sanitizePosition = function sanitizePosition() {
-    var current = awsService.toastPosition;
-    if ( current.bottom && last.top ) current.top = false;
-    if ( current.top && last.bottom ) current.bottom = false;
-    if ( current.right && last.left ) current.left = false;
-    if ( current.left && last.right ) current.right = false;
-    last = angular.extend({},current);
-  }
   
   //TODO load
   awsService.UseAws = true;
@@ -90,7 +59,7 @@ function($rootScope, $q, $mdToast, configService) {
         }
         else {
           // Success!
-          awsService.ShowToast('Uploaded ' + objectType + ' to aws')
+          awsService.ToastService.ShowToast('Uploaded ' + objectType + ' to aws')
         }
       })
       .on('httpUploadProgress',function(progress) {
@@ -112,6 +81,18 @@ function($rootScope, $q, $mdToast, configService) {
         var body = JSON.stringify(post);
 
         awsService.UploadFile('post', filename, filetype, body);
+      }
+    }
+  };
+  
+  awsService.SavePlace = function(place) {
+    if (awsService.Enabled) {
+      if (place != null) {
+        var filename = "places/" + place._id + '.json';
+        var filetype = "application/json";
+        var body = JSON.stringify(place);
+
+        awsService.UploadFile('place', filename, filetype, body);
       }
     }
   };
@@ -154,6 +135,22 @@ function($rootScope, $q, $mdToast, configService) {
     }
   };
   
+  awsService.DeleteFile = function(file) {
+   if (awsService.Enabled) {
+      if (file != null) {
+        //TODO delete the file?  Or move it to deleted?
+      }
+    }
+  };
+  
+  awsService.DeletePlace = function(place) {
+   if (awsService.Enabled) {
+      if (place != null) {
+        //TODO delete the file?  Or move it to deleted?
+      }
+    }
+  };
+  
     
   $rootScope.$on('FriendSaved', function(event, friend){
     if (awsService.UseAws) {
@@ -164,6 +161,18 @@ function($rootScope, $q, $mdToast, configService) {
   $rootScope.$on('FriendDeleted', function(event, friend){
     if (awsService.UseAws) {
       awsService.DeleteFriend(friend);
+    }    
+  });
+  
+  $rootScope.$on('PlaceSaved', function(event, place){
+    if (awsService.UseAws) {
+      awsService.SavePlace(place);
+    }    
+  });
+  
+  $rootScope.$on('PlaceDeleted', function(event, place){
+    if (awsService.UseAws) {
+      awsService.DeletePlace(place);
     }    
   });
   
@@ -179,9 +188,9 @@ function($rootScope, $q, $mdToast, configService) {
     }    
   });
   
-  $rootScope.$on('FileSaved', function(event, fileId, extension, filetype, file){
+  $rootScope.$on('FileSaved', function(event, file){
     if (awsService.UseAws) {
-      awsService.SaveFile(fileId, extension, filetype, file);
+      awsService.SaveFile(file.FileId, file.Extension, file.Filetype, file.File);
     }    
   });
   
