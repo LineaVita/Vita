@@ -69,4 +69,51 @@ function(uuid, pouchDB, $q, broadcastService) {
     return deferred.promise;   
   };
   
+  //Get a specific place from the database
+  placeService.GetPost = function(id) {
+    var deferred = $q.defer();
+    
+    placeService.db.get(id)
+    .then(function(doc) {
+      deferred.resolve(doc);
+    })
+    .catch(function (err) {
+      deferred.resolve(null);         
+    });
+        
+    return deferred.promise; 
+  };
+  
+  placeService.FindPlaces = function(minLat, maxLat, minLon, maxLon) {
+    var deferred = $q.defer();
+    
+    placeService.db.find({
+      selector: {
+        $and: [
+          { Latitude: { $gte: minLat } },
+          { Latitude: { $lte: maxLat } },
+          { Longitude: { $gte: minLon } },
+          { Longitude: { $lte: maxLon } }
+        ]
+      }
+    })
+    .then(function(places) {
+        //loop through and just return the actual posts.
+        var output = [];
+    
+        if (places != null && places.docs != null) {
+          for (i = 0, len = places.docs.length; i < len; i++) { 
+              output.push(places.docs[i]);
+          }
+        }
+
+        deferred.resolve(output);
+    })
+    .catch(function (err) {
+      deferred.resolve(null);         
+    });
+    
+    return deferred.promise; 
+  } 
+  
 }]);
