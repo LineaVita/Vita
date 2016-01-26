@@ -12,6 +12,11 @@ function($scope, $routeParams, $location, postService, gpsService, fileService, 
     $scope.GPSService.GetLocation()
     .then(function (position){
       $scope.Post.Location = position;
+      
+      $scope.PlaceService.FindPlacesNearPoint(position.Latitude, position.Longitude)
+      .then(function(places){
+        $scope.NearbyPlaces = places;
+      })      
     });
   };
   
@@ -26,7 +31,16 @@ function($scope, $routeParams, $location, postService, gpsService, fileService, 
       var fileCount = fileControl.files.length;
       post.FileCount = fileCount;
       post.FileIds = [];
-    
+      
+      if (post.Place != null && post.Location != null && post.Location.Latitude != null && post.Location.Longitude != null) {
+        $scope.ItemsToSave += 1;
+        
+        $scope.PlaceService.SavePlaceIfNew(post.Place, post.Location.Latitude, post.Location.Longitude)
+        .then(function(place) {
+          $scope.ItemsSaved += 1;  
+        })
+      }
+          
       $scope.ItemsToSave += fileCount;
     
       for (var i = 0; i < fileCount; i++) {       

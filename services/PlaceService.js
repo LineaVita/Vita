@@ -68,7 +68,35 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
   };
   
   placeService.SavePlaceIfNew = function(placeName, latitude, longitude) {
+    var deferred = $q.defer();
     
+    placeService.FindPlacesNearPoint(latitude, longitude)
+    .then(function(places) {
+      var savePlace = true;
+
+      if (places != null) {
+        for (i = 0, len = places.length; i < len; i++) { 
+          var place = places[i];
+          if (place != null && place.Name == placeName) {
+            savePlace = false;
+          }              
+        }
+      }
+      
+      if (savePlace) {
+        var placeToSave = placeService.NewPlace();
+        placeToSave.Name = placeName;
+        placeToSave.Latitude = latitude;
+        placeToSave.Longitude = longitude;
+        
+        placeService.SavePlace(placeToSave)
+        .then(function(place) {
+          deferred.resolve(place);
+        }); 
+      }      
+    });
+    
+    return deferred.promise;
   }
   
   placeService.SavePlace = function(entry) {
@@ -128,7 +156,7 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
     .catch(function (err) {
       deferred.resolve(null);         
     });
-        
+
     return deferred.promise; 
   };
   
@@ -156,7 +184,7 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
           { Longitude: { $gte: minLon } },
           { Longitude: { $lte: maxLon } }
         ]
-      }
+      }, sort: [ {Latitude: 'desc'}, {Longitude: 'desc'} ] 
     })
     .then(function(places) {
         //loop through and just return the actual posts.

@@ -72,3 +72,5 @@
       </md-card>  
     </section>
   </md-content>                 
+          
+                    <input type="text" class="form-control" id="postPlace" name="postPlace" ng-model="Post.Place" required></textarea>

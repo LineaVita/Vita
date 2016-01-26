@@ -25,8 +25,13 @@
         </md-input-container>
         <md-input-container class="md-block">
           <label for="postPlace">Where are you?</label>
-          <input type="text" class="form-control" id="postPlace" name="postPlace" ng-model="Post.Place" required></textarea>
-        </md-input-container>
+          <md-autocomplete
+            md-selected-item="Post.Place"
+            md-items="item in NearbyPlaces"
+            md-item-text="item.Name"
+            md-min-length="0"
+            placeholder="Where are you?">
+          <md-item-template>
         <div class="form-group">
           <md-button class="md-raised">
             <label for="postImage">Select an image</label>
