@@ -24,14 +24,16 @@
           </div>
         </md-input-container>
         <md-input-container class="md-block">
-          <label for="postPlace">Where are you?</label>
           <md-autocomplete
             md-selected-item="Post.Place"
+            searchText="SearchText"                         
             md-items="item in NearbyPlaces"
             md-item-text="item.Name"
             md-min-length="0"
-            placeholder="Where are you?">
-          <md-item-template>
+            md-floating-label="Where are you?"
+            ng-model="Post.Place">
+          </md-autocomplete>
+        </md-input-container>
         <div class="form-group">
           <md-button class="md-raised">
             <label for="postImage">Select an image</label>

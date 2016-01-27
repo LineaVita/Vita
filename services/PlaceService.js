@@ -176,7 +176,7 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
   placeService.FindPlaces = function(minLat, maxLat, minLon, maxLon) {
     var deferred = $q.defer();
     
-    placeService.db.find({
+    var query = {
       selector: {
         $and: [
           { Latitude: { $gte: minLat } },
@@ -184,8 +184,11 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
           { Longitude: { $gte: minLon } },
           { Longitude: { $lte: maxLon } }
         ]
-      }, sort: [ {Latitude: 'desc'}, {Longitude: 'desc'} ] 
-    })
+      }, 
+      sort: [ {Latitude: 'desc'}, {Longitude: 'desc'} ] 
+    };
+    
+    placeService.db.find(query)
     .then(function(places) {
         //loop through and just return the actual posts.
         var output = [];

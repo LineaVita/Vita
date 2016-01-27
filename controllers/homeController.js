@@ -1,7 +1,10 @@
-vitaApp.controller('homeController', ['$scope', 'PostService', 'awsService', 'FileService', 'ConfigurationService',
-function($scope, postService, awsService, fileService, configService) {
+vitaApp.controller('homeController', ['$scope', 'PostService', 'awsService', 
+                                      'FileService', 'ConfigurationService',
+                                      'PlaceService',
+function($scope, postService, awsService, fileService, configService, placeService) {
   $scope.PostService = postService;
   $scope.FileService = fileService;
+  $scope.PlaceService = placeService;
   $scope.ConfigurationService = configService;
   
   $scope.RecentPosts = [];

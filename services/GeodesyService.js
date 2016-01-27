@@ -10,13 +10,13 @@ function() {
     var south = point.destinationPoint(distance, 180);
     var west = point.destinationPoint(distance, 270);
     
-    return {
-      "MaxLatitude" : north.Latitude,
-      "MinLatitude" : south.Latitude,
-      "MaxLongitude" : east.Longitude,
-      "MinLongitude" : west.Longitude
-    };
+    var output =  { };
+    output.MaxLatitude = north.lat;
+    output.MinLatitude = south.lat;
+    output.MaxLongitude = east.lon;
+    output.MinLongitude = west.lon;
     
+    return output;    
   }
   
   return geodesyService;
