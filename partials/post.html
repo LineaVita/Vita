@@ -25,13 +25,14 @@
         </md-input-container>
         <md-input-container class="md-block">
           <md-autocomplete
-            md-selected-item="Post.Place"
+            md-input-name="txtPostPlace"
+            md-input-minlength="0"
+            md-input-maxlength="50"                           
+            md-selected-item="SelectedPlace"
             searchText="SearchText"                         
             md-items="item in NearbyPlaces"
             md-item-text="item.Name"
-            md-min-length="0"
-            md-floating-label="Where are you?"
-            ng-model="Post.Place">
+            md-floating-label="Where are you?">
           </md-autocomplete>
         </md-input-container>
         <div class="form-group">

@@ -8,6 +8,10 @@ function($scope, $routeParams, $location, postService, gpsService, fileService, 
   $scope.ItemsToSave = 0;
   $scope.ItemsSaved = 0;
   
+  $scope.SearchText = null;
+  $scope.NearbyPlaces = null;
+  $scope.SelectedPlace = null;
+  
   $scope.GetGPS = function() {
     $scope.GPSService.GetLocation()
     .then(function (position){
@@ -23,6 +27,10 @@ function($scope, $routeParams, $location, postService, gpsService, fileService, 
   $scope.SavePost = function(post) {
     //Not sure why we are getting an array
     var fileControl = $("#postImage")[0];
+    
+    if ($scope.SelectedPlace != null) {
+      post.Place = $scope.SelectedPlace.Name;
+    }      
     
     $scope.ItemsToSave = 1;
     
