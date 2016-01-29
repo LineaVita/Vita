@@ -22,15 +22,17 @@ function($rootScope, $q, $mdToast, configService, toastService) {
   }
   
   awsService.ConfigureS3 = function() {
-    awsService.Credentials = {
-      accessKeyId: awsService.Configuration.AWSKey, 
-      secretAccessKey: awsService.Configuration.AWSSecret };
-       
-    awsService.Enabled = true;
-    //TODO mark as ready and deal with stuff that came in before ready.
-    //Check in database for new records? 
-    
-    //TODO verify that we can list the bucket
+    if (awsService.Configuration.AWSKey != null && awsService.Configuration.AWSSecret != null) {
+          awsService.Credentials = {
+            accessKeyId: awsService.Configuration.AWSKey, 
+            secretAccessKey: awsService.Configuration.AWSSecret };
+
+          awsService.Enabled = true;
+          //TODO mark as ready and deal with stuff that came in before ready.
+          //Check in database for new records? 
+
+          //TODO verify that we can list the bucket
+    }
   }
   
   awsService.ListBucket = function(){
