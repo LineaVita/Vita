@@ -33,6 +33,9 @@
             md-items="item in NearbyPlaces"
             md-item-text="item.Name"
             md-floating-label="Where are you?">
+            <md-item-template>
+              <span md-highlight-text="SearchText">{{item.Name}}</span>              
+            </md-item-template>
           </md-autocomplete>
         </md-input-container>
         <div class="form-group">
