@@ -8,7 +8,7 @@ function($scope, $routeParams, $location, postService, gpsService, fileService, 
   $scope.ItemsToSave = 0;
   $scope.ItemsSaved = 0;
   
-  $scope.SearchText = null;
+  $scope.PlaceSearchText = null;
   $scope.NearbyPlaces = null;
   $scope.SelectedPlace = null;
   

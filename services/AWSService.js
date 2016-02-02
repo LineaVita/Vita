@@ -10,14 +10,22 @@ function($rootScope, $q, $mdToast, configService, toastService) {
   
   //TODO load
   awsService.UseAws = true;
+  awsService.ShowNotifications = false;
   awsService.Credentials = {};  
   awsService.Configuration = {};
     
   awsService.getConfig = function() {
     awsService.ConfigService.LoadConfiguration()
     .then(function(config) {
-      awsService.Configuration = config; 
-      awsService.ConfigureS3();
+      if (config != null) {
+        awsService.Configuration = config;
+        awsService.UseAws = config.UseAWS;
+        awsService.ShowNotifications = config.ShowAWSNotifications;
+        
+        awsService.ConfigureS3();        
+      } else {
+        awsService.UseAws = false;
+      }            
     });    
   }
   
@@ -61,7 +69,9 @@ function($rootScope, $q, $mdToast, configService, toastService) {
         }
         else {
           // Success!
-          awsService.ToastService.ShowToast('Uploaded ' + objectType + ' to aws')
+          if (awsService.ShowNotifications) {
+            awsService.ToastService.ShowToast('Uploaded ' + objectType + ' to aws')
+          }          
         }
       })
       .on('httpUploadProgress',function(progress) {

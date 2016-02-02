@@ -23,19 +23,19 @@
             <div ng-message="required">This is required.</div>
           </div>
         </md-input-container>
-          <md-autocomplete
-            md-input-name="txtPostPlace"
-            md-input-minlength="0"
-            md-input-maxlength="50"                           
-            md-selected-item="SelectedPlace"
-            searchText="SearchText"                         
-            md-items="item in NearbyPlaces"
-            md-item-text="item.Name"
-            md-floating-label="Where are you?">
-            <md-item-template>
-              <span md-highlight-text="SearchText">{{item.Name}}</span>              
-            </md-item-template>
-          </md-autocomplete>
+        <md-autocomplete
+          md-input-name="txtPostPlace"
+          md-input-minlength="0"
+          md-input-maxlength="50"                           
+          md-selected-item="$scope.SelectedPlace"
+          searchText="$scope.PlaceSearchText"                         
+          md-items="item in NearbyPlaces"
+          md-item-text="item.Name"
+          md-floating-label="Where are you?">
+          <md-item-template>
+            <span md-highlight-text="SearchText">{{item.Name}}</span>              
+          </md-item-template>
+        </md-autocomplete>
         <div class="form-group">
           <md-button class="md-raised">
             <label for="postImage">Select an image</label>

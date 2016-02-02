@@ -30,6 +30,11 @@
             <label for="awsSecret">AWS Bucket</label>
             <input type="text" class="form-control" id="awsBucket" placeholder="AWS Bucket" ng-model="Configuration.AWSBucketName" ng-disabled="!Configuration.UseAWS">
           </md-input-container>
+          <md-input-container class="md-block">
+            <md-checkbox ng-model="Configuration.ShowAWSNotifications" id="showNotifications" aria-label="Show Notifications">
+                  Show AWS Notifications
+            </md-checkbox>
+          </md-input-container>
         </fieldset>
         <fieldset class="standard">
           <legend>Google Api</legend>

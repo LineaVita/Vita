@@ -1,6 +1,6 @@
 vitaApp.factory('ConfigurationService', ['pouchDB', '$q', 
 function(pouchDB, $q) {
-  var settingsToSave = 6;
+  var settingsToSave = 7;
   var configurationService = {};
 
   //setup the db
@@ -19,8 +19,9 @@ function(pouchDB, $q) {
       output.AWSSecret = configurationService.FindSetting('AWSSecret', settings, null);
       output.AWSRegion = configurationService.FindSetting('AWSRegion', settings, null);
       output.AWSBucketName = configurationService.FindSetting('AWSBucketName', settings, null);
+      output.ShowAWSNotifications = configurationService.FindSetting('ShowAWSNotifications', settings, false);
       output.GoogleApiKey = configurationService.FindSetting('GoogleApiKey', settings, null);
-      
+            
       deferred.resolve(output);
     });      
 
@@ -74,6 +75,13 @@ function(pouchDB, $q) {
       if (i>=settingsToSave) { deferred.resolve(true); }
     });
     
+    configurationService.SaveSetting('ShowAWSNotifications', configuration.ShowAWSNotifications)
+    .then(function() {
+      i++;
+      
+      if (i>=settingsToSave) { deferred.resolve(true); }
+    });
+    
     return deferred.promise;
   };
 
@@ -85,6 +93,7 @@ function(pouchDB, $q) {
     config.AWSSecret = "";
     config.AWSRegion = "";
     config.AWSBucketName = "";
+    config.ShowAWSNotifications = false;
     config.GoogleApiKey = "";
 
     return config;
