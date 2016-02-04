@@ -93,7 +93,10 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
         .then(function(place) {
           deferred.resolve(place);
         }); 
-      }      
+      } else {
+        deferred.resolve(null);
+      }
+      
     });
     
     return deferred.promise;

@@ -48,6 +48,10 @@ function($scope, $routeParams, $location, postService, gpsService, fileService, 
         $scope.PlaceService.SavePlaceIfNew(post.Place, post.Location.Latitude, post.Location.Longitude)
         .then(function(place) {
           $scope.ItemsSaved += 1;  
+          
+          if ($scope.ItemsSaved >= $scope.ItemsToSave) {
+            $location.path('/home');
+          }
         })
       }
           
