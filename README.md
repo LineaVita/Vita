@@ -5,20 +5,29 @@ Bring your own S3 storage life tracking system
 File Structure
 
     /
+    /places
     /posts
-    /posts/year/month
     /friends
     /files
-    /files/year/month
 
 # Objects
 Post
 
-    DateTime
+    PostDateTime
     Text
-    Location
-    Files
+    Location 
+    Place
+    FileCount
+    FileIds
     Tags
+
+Place
+    
+    _id
+    Name
+    Description
+    Latitude
+    Longitude
 
 
 File
@@ -52,6 +61,9 @@ Friend
 Installed Javascript Libraries
 
     bower install angular
+    bower install angular-animate
+    bower install angular-aria
+    bower install angular-messages
     bower install angular-route
     bower install angular-material
     bower install aws-sdk-js
@@ -85,5 +97,5 @@ The bucket must also be configured to allow cross domain transfers.  While you c
         </CORSRule>
     </CORSConfiguration>
 
-Test
+
 
