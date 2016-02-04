@@ -115,7 +115,7 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
         });
       } else {
         //Try to load the post
-        placeService.GetPost(entry._id)
+        placeService.GetPlace(entry._id)
         .then(function(doc) {
           if (doc != null) {
             //found the post so pull the rev out of it and
