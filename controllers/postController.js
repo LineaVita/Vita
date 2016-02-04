@@ -30,7 +30,9 @@ function($scope, $routeParams, $location, postService, gpsService, fileService, 
     
     if ($scope.SelectedPlace != null) {
       post.Place = $scope.SelectedPlace.Name;
-    }      
+    } else {
+      post.Place = $scope.PlaceSearchText;
+    }
     
     $scope.ItemsToSave = 1;
     
