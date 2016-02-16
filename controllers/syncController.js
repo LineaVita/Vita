@@ -1,6 +1,9 @@
-vitaApp.controller('syncController', ['$scope', '$routeParams', '$location', 'PostService', 'GPSService', 'FileService', 'PlaceService', 'ConfigurationService',
-function($scope, $routeParams, $location, postService, gpsService, fileService, placeService, configService) {  
-  
+vitaApp.controller('syncController', ['$scope', '$routeParams', '$location', 'PostService', 
+                                      'GPSService', 'FileService', 'PlaceService', 'ConfigurationService',
+                                      'AWSService',
+function($scope, $routeParams, $location, postService, 
+         gpsService, fileService, placeService, configService,
+         awsService) { 
   $scope.LastSyncTime = null;
   $scope.LastSyncTimeString = null;
   $scope.ProgressMode = null;
