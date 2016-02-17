@@ -1,5 +1,5 @@
-vitaApp.factory('SyncService', ['uuid', '$q', 'AWSService', 'PostService',
-function(uuid, pouchDB, $q, awsService, postService) {
+vitaApp.factory('SyncService', ['uuid', '$q', 'awsService', 'PostService',
+function(uuid, $q, awsService, postService) {
   var syncService = {};
   
   syncService.AWSService = awsService;
@@ -9,6 +9,12 @@ function(uuid, pouchDB, $q, awsService, postService) {
     var deferred = $q.defer();
     
     syncService.SyncPosts(lastSyncDate)
+    .then(function() {
+      syncService.SyncPlaces(lastSyncDate);
+    })
+    .then(function() {
+      syncService.SyncFriends(lastSyncDate);
+    })
     .finally(function () {
       deferred.resolve();
     });
@@ -16,14 +22,41 @@ function(uuid, pouchDB, $q, awsService, postService) {
     return deferred.promise;
   };
   
-  syncService.SyncPosts = function(lastSyncDate) {
-    var deferred = $q.defer();
+  syncService.SyncPlaces = function(lastSyncDate) {
+    var deferred = $q.defer();      
     
-    
-    
+    syncService.AWSService.ListBucket('places/')
+    .then(function (data){
+      
+      return deferred.resolve();
+    });
     
     return deferred.promise;
-  }
+  };
   
+  syncService.SyncFriends = function(lastSyncDate) {
+    var deferred = $q.defer();      
+    
+    syncService.AWSService.ListBucket('friends/')
+    .then(function (data){
+      
+      return deferred.resolve();
+    });
+    
+    return deferred.promise;
+  };
+  
+  syncService.SyncPosts = function(lastSyncDate) {
+    var deferred = $q.defer();      
+    
+    syncService.AWSService.ListBucket('posts/')
+    .then(function (data){
+      
+      return deferred.resolve();
+    });
+    
+    return deferred.promise;
+  };
+ 
   return syncService;
 }]);
