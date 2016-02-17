@@ -1,5 +1,7 @@
-vitaApp.factory('SyncService', ['uuid', '$q', 'awsService', 'PostService',
-function(uuid, $q, awsService, postService) {
+vitaApp.factory('SyncService', ['uuid', '$q', 'awsService', 
+                                'PostService', 'FriendService', 'PlaceService',
+function(uuid, $q, awsService,
+         postService, friendService, placeService) {
   var syncService = {};
   
   syncService.AWSService = awsService;
@@ -27,6 +29,14 @@ function(uuid, $q, awsService, postService) {
     
     syncService.AWSService.ListBucket('places/')
     .then(function (data){
+      //Get all local places
+      
+      //Loop through weed out what is already on server
+      
+      //Determine what is not local
+      
+      //pull what isn't local
+      //push what isn't on server      
       
       return deferred.resolve();
     });
