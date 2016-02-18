@@ -38,6 +38,7 @@ function(uuid, pouchDB, $q, broadcastService) {
       _id: fileId,
       Filename: filename,
       FileSize: filesize,
+      LastModifiedDateTime: Date.now(),
       _attachments: {
         "file": {
           type: file.type,

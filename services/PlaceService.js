@@ -63,6 +63,7 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
     entry.Longitude = null;
     entry.Name = null;
     entry.Description = null;
+    entry.LastModifiedDateTime = null;
            
     return entry;
   };
@@ -104,6 +105,8 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
   
   placeService.SavePlace = function(entry) {
     var deferred = $q.defer();
+    
+    entry.LastModifiedDateTime = Date.now();
 
     if (entry != null) {
       //if null then a new post

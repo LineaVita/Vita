@@ -34,6 +34,7 @@ function(uuid, pouchDB, $q, broadcastService) {
     entry.FileCount = 0;
     entry.Place = null;
     entry.FileIds = null;
+    entry.LastModifiedDateTime = null;
            
     return entry;
   };
@@ -41,6 +42,8 @@ function(uuid, pouchDB, $q, broadcastService) {
   //Save the post to the database
   postService.SavePost = function(entry) {
     var deferred = $q.defer();
+    
+    entry.LastModifiedDateTime = Date.now();
 
     if (entry != null) {
       //if null then a new post

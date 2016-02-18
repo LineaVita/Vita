@@ -56,6 +56,7 @@ function(uuid, pouchDB, $q, broadcastService) {
     friend.Email = "";
     friend.Twitter = "";
     friend.BirthDate = null;
+    friend.LastModifiedDateTime = null;
 
     return friend;
   };
@@ -75,6 +76,8 @@ function(uuid, pouchDB, $q, broadcastService) {
   //Save a friend to the database
   friendService.saveFriend = function (friend) {
     var deferred = $q.defer();
+    
+    friend.LastModifiedDateTime = Date.now();
 
     if (friend != null) {
       //If the friend._id is null it is new
