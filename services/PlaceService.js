@@ -166,6 +166,22 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
     return deferred.promise; 
   };
   
+  placeService.GetAll = function() {
+    var deferred = $q.defer();
+    
+    placeService.db.allDocs({
+      include_docs: true,
+      attachments: true
+    }).then(function (places) {
+      deferred.resolve(places)
+    }).catch(function (err) {
+      console.log(err);
+      deferred.resolve(null);
+    });
+
+    return deferred.promise; 
+  }
+  
   placeService.FindPlacesNearPoint = function(latitude, longitude) {
     var deferred = $q.defer();
     
