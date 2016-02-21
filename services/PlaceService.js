@@ -33,26 +33,19 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
   .then(function() {
     placeService.NameIndexReady = true;
     
-    if (placeService.LocationIndexReady) {
-      placeService.SetReady();   
-    }    
-  });
-  
-  //Create an index for names
-  placeService.db.createIndex(locationIndex)
+    return placeService.db.createIndex(locationIndex);
+  })
   .then(function() {
-    placeService.LocationIndexReady = true;
+    placeService.NameIndexReady = true;
     
-    if (placeService.NameIndexReady) {
-      placeService.SetReady();   
-    }    
-  });
-    
-  placeService.SetReady = function()
-  {
+    return placeService.db.createIndex({ index: { fields: ['LastModifiedDateTime'] } });
+  })
+  .then(function() {
+    placeService.LastModifiedIndexReady = true;
+
     placeService.Ready = true;
     placeService.Broadcast.Send('PlaceServiceReady', null);
-  }
+  });
    
   //New Post
   placeService.NewPlace = function() {

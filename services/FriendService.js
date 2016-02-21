@@ -11,6 +11,9 @@ function(uuid, pouchDB, $q, broadcastService) {
   //Create an index for Friend by Name
   friendService.db.createIndex({ index: { fields: ['LastName', 'FirstName'] } })
   .then(function() {
+    return friendService.db.createIndex({ index: { fields: ['LastModifiedDateTime'] } });
+  })
+  .then(function() {
     friendService.Ready = true;
     friendService.Broadcast.Send('FriendServiceReady', null);
   });
