@@ -221,7 +221,35 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
     });
     
     return deferred.promise; 
-  } 
+  };
+  
+  placeService.GetPlacesModifiedSince = function(startDate) {
+    var deferred = $q.defer();
+    
+    var select = {
+      selector: { LastModifiedDateTime: { $gte: startDate.valueOf() } },
+      sort: [ {LastModifiedDateTime: 'asc'} ]    
+    };
+    
+    placeService.db.find(select)
+    .then(function(places) {
+        //loop through and just return the actual places.
+        var output = [];
+    
+        if (places != null && places.docs != null) {
+          for (i = 0, len = places.docs.length; i < len; i++) { 
+              output.push(places.docs[i]);
+          }
+        }
+
+        deferred.resolve(output);
+    })
+    .catch(function (err) {
+      deferred.resolve(null);         
+    });
+    
+    return deferred.promise; 
+  }  
   
   return placeService;
   

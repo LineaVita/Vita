@@ -152,7 +152,7 @@ function(uuid, pouchDB, $q, broadcastService) {
     });
     
     return deferred.promise; 
-  } 
+  };
   
   postService.GetPostsSince = function(startDate) {
     var deferred = $q.defer();
@@ -180,7 +180,7 @@ function(uuid, pouchDB, $q, broadcastService) {
     });
     
     return deferred.promise; 
-  }  
+  };
    
   postService.GetPostDateString = function(postDateTime) {
     var d = new Date(postDateTime);
@@ -191,19 +191,49 @@ function(uuid, pouchDB, $q, broadcastService) {
     if (location != null) {
       return "Position (" + location.Latitude.toFixed(4) + ", " + location.Longitude.toFixed(4) + ")";
     }
-  }
+  };
   
   postService.GetGoogleHref = function(location, api) {
     if (location != null) {
       return "https://www.google.com/maps/embed/v1/view?key=" + api + "&center=" +location.Latitude.toFixed(4) + "," + location.Longitude.toFixed(4)
     }      
-  }
+  };
   
-    postService.GetGoogleHref2 = function(location) {
+  postService.GetGoogleHref2 = function(location) {
     if (location != null) {
       return "https://www.google.com/maps/@" + location.Latitude.toFixed(4) + "," + location.Longitude.toFixed(4) + ",18z";
     }      
-  }
+  };
+  
+  postService.GetPostsModifiedSince = function(startDate) {
+    var deferred = $q.defer();
+    
+    var select = {
+      selector: { LastModifiedDateTime: { $gte: startDate.valueOf() } },
+      sort: [ {LastModifiedDateTime: 'asc'} ]    
+    };
+    
+    postService.db.find(select)
+    .then(function(posts) {
+        //loop through and just return the actual posts.
+        var output = [];
+    
+        if (posts != null && posts.docs != null) {
+          for (i = 0, len = posts.docs.length; i < len; i++) { 
+              output.push(posts.docs[i]);
+          }
+        }
+
+        deferred.resolve(output);
+    })
+    .catch(function (err) {
+      deferred.resolve(null);         
+    });
+    
+    return deferred.promise; 
+  };
+    
+    
   
   return postService;  
 }]);

@@ -127,5 +127,33 @@ function(uuid, pouchDB, $q, broadcastService) {
     return deferred.promise;   
   };
   
+   friendService.GetFriendsModifiedSince = function(startDate) {
+    var deferred = $q.defer();
+    
+    var select = {
+      selector: { LastModifiedDateTime: { $gte: startDate.valueOf() } },
+      sort: [ {LastModifiedDateTime: 'asc'} ]    
+    };
+    
+    friendSerive.db.find(select)
+    .then(function(friends) {
+        //loop through and just return the actual friends.
+        var output = [];
+    
+        if (friends != null && friends.docs != null) {
+          for (i = 0, len = friends.docs.length; i < len; i++) { 
+              output.push(friends.docs[i]);
+          }
+        }
+
+        deferred.resolve(output);
+    })
+    .catch(function (err) {
+      deferred.resolve(null);         
+    });
+    
+    return deferred.promise; 
+  };
+  
   return friendService;
 }]);
