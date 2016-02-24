@@ -231,9 +231,7 @@ function(uuid, pouchDB, $q, broadcastService) {
     });
     
     return deferred.promise; 
-  };
-    
-    
+  };    
   
   return postService;  
 }]);
