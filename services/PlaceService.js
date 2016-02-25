@@ -166,7 +166,16 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
       include_docs: true,
       attachments: true
     }).then(function (places) {
-      deferred.resolve(places)
+      var output = [];
+
+      if (places != null && places.rows != null) {
+        for (i = 0, len = places.rows.length; i < len; i++) { 
+          var place = places.rows[i];
+          output.push(place.doc);
+        }
+      }      
+      
+      deferred.resolve(output)
     }).catch(function (err) {
       console.log(err);
       deferred.resolve(null);

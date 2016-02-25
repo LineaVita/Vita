@@ -40,31 +40,55 @@ function(uuid, $q, awsService,
     return deferred.promise;
   };
   
-  syncService.ProcessArrays = function(type, local, remote) {   
+  syncService.ProcessArrays = function(type, localsObjects, remoteObjects) {   
     var localsToPush = [];
     var serverToGet = [];
+    var i = 0;
     
-    if (remote == null || remote.Contents.length == 0) {
-      if (local != null && local.rows.length > 0) {
+    if (remoteObjects == null || remoteObjects.Contents.length == 0) {
+      if (localsObjects != null && localsObjects.length > 0) {        
         //Push everything up
-        for (i = 0; local.rows.length < 5; i++) {
-          localsToPush.push(local.rows[i]);
+        for (i = 0; i < localsObjects.length; i++) {
+          localsToPush.push(localsObjects[i]);
         }  
       }          
-    }  else if(local == null || local.rows.length == 0) {
-      if (remote != null && remote.Contents.length > 0) {
-        
+    }  else if(localsObjects == null || localsObjects.length == 0) {
+      if (remoteObjects != null && remoteObjects.Contents.length > 0) {        
         //Bring everything down
-        for (i = 0; remote.Contents.length < 5; i++) {
-          serverToGet.push(remote.Contents[i]);
+        for (i = 0; i < remoteObjects.Contents.length; i++) {
+          serverToGet.push(remoteObjects.Contents[i]);
         }  
       }              
     } else {
       //Loop through weed out what is already on server
-      for (i = 0; remote.Contents.length < 5; i++) {
-        var remoteObject = remote.Contents[i];
+      for (i = 0; i < remoteObjects.Contents.length ; i++) {
+        var remoteObject = remoteObjects.Contents[i];
+        
+        var id = remoteObject.Key.slice(type.length + 1, -5);
+        var lastModified = Date.parse(remoteObject.LastModified);
+        
+        var localObject = syncService.FindInList(id, localsObjects);
+        if (localObject == null) {
+          console.log("Remote Object to Get");
+          serverToGet.push(remoteObject);          
+        } else {
+          //Check the date
+          console.log("Found object checking date");
+        }
       }                
     }  
+  }
+  
+  syncService.FindInList = function(id, list) {
+    for (var j = 0; j<list.length; j++) {
+      var obj = list[j];
+      
+      if (obj._id == id) {
+        return obj;
+      }
+    }
+    
+    return null;
   }
   
   syncService.SyncFriends = function(lastSyncDate) {
