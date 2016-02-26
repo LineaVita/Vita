@@ -108,6 +108,18 @@ function($rootScope, $q, $mdToast, configService, toastService) {
       alert('No File Selected');
     }
   }
+  
+  awsService.Save = function(type, item) {
+    if (type == "posts"){
+      return awsService.SavePost(item);
+    } else if (type == "places") {
+      return awsService.SavePlace(item);
+    } else if (type == "friends") {
+      return awsService.SaveFriend(item);
+    } else if (type == "files") {
+      
+    }
+  }
     
   awsService.SavePost = function(post) {
     if (awsService.Enabled) {

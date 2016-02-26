@@ -159,7 +159,7 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
     return deferred.promise; 
   };
   
-  placeService.GetAll = function() {
+  placeService.GetPlaces = function() {
     var deferred = $q.defer();
     
     placeService.db.allDocs({
