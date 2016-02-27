@@ -7,7 +7,7 @@ function($scope, $routeParams, $location, configService, syncService) {
   $scope.Syncing = false;
     
   $scope.GetLastSyncTimeString = function() {
-    configService.GetSettingByName('LastAWSSyncTime')
+    configService.GetSettingValueByName('LastAWSSyncTime')
     .then(function (rawValue) {
       if (rawValue != null) {
         var d = new Date(rawValue);
@@ -27,6 +27,12 @@ function($scope, $routeParams, $location, configService, syncService) {
     .then(function(){
       $scope.ProgressMode = "";
       $scope.Syncing = false;
+      
+      configService.SaveSetting("LastAWSSyncTime", Date.now())
+      .then(function() {
+        //refresh last sync time
+        $scope.GetLastSyncTimeString();        
+      });
     });
   }
   

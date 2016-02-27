@@ -1,7 +1,9 @@
 vitaApp.factory('SyncService', ['uuid', '$q', 'awsService', 
-                                'PostService', 'FriendService', 'PlaceService',
+                                'PostService', 'FriendService', 
+                                'PlaceService',
 function(uuid, $q, awsService,
-         postService, friendService, placeService) {
+         postService, friendService, 
+         placeService, configService) {
   var syncService = {};
   
   syncService.AWSService = awsService;
@@ -17,7 +19,7 @@ function(uuid, $q, awsService,
     .then(function() {
       return syncService.SyncFriends(lastSyncDate);
     })
-    .finally(function () {
+    .finally(function () {      
       deferred.resolve();
     });
     
