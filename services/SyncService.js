@@ -42,21 +42,36 @@ function(uuid, $q, awsService,
     return deferred.promise;
   };
   
+  syncService.AddToArrayIfNotInternal = function(arrayObj, testObj) {
+    if (testObj != null) {
+      var id = testObj._id;
+      if (id != null) {
+        var idStart = id.substring(0, 7);
+        if (idStart != "_design") {
+          arrayObj.push(testObj);
+        }
+      }
+    } 
+  }
+  
   syncService.ProcessArrays = function(type, localsObjects, remoteObjects) {   
     var deferred = $q.defer(); 
     
     var localsToPush = [];
     var serverToGet = [];
+    var localObj = null;
     var i = 0;
     
     if (remoteObjects == null || remoteObjects.Contents.length == 0) {
       if (localsObjects != null && localsObjects.length > 0) {        
         //Push everything up
         for (i = 0; i < localsObjects.length; i++) {
-          localsToPush.push(localsObjects[i]);
+          localObj = localsObjects[i];
+          
+          syncService.AddToArrayIfNotInternal(localsToPush, localObj);
         }  
       }          
-    }  else if(localsObjects == null || localsObjects.length == 0) {
+    } else if (localsObjects == null || localsObjects.length == 0) {
       if (remoteObjects != null && remoteObjects.Contents.length > 0) {        
         //Bring everything down
         for (i = 0; i < remoteObjects.Contents.length; i++) {
@@ -83,11 +98,9 @@ function(uuid, $q, awsService,
       
       //remaining local objects are not on the server
       for (j = 0; j < localsObjects.length; j++) {
-        var localObj = localsObjects[j];
+        localObj = localsObjects[j];
         
-        if (localObj != null) {
-          localsToPush.push(localObj);
-        }
+        syncService.AddToArrayIfNotInternal(localsToPush, localObj);
       }
     } 
     
@@ -105,7 +118,7 @@ function(uuid, $q, awsService,
     
     for (i = 0; i < items.length; i++) {
       var item = items[i];
-      
+            
       var promise = syncService.AWSService.Save(type, item);
       promises.push(promise);
     }
