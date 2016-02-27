@@ -12,13 +12,49 @@ function(uuid, $q, awsService,
     
     syncService.SyncPosts(lastSyncDate)
     .then(function() {
-      syncService.SyncPlaces(lastSyncDate);
+      return syncService.SyncPlaces(lastSyncDate);
     })
     .then(function() {
-      syncService.SyncFriends(lastSyncDate);
+      return syncService.SyncFriends(lastSyncDate);
     })
     .finally(function () {
       deferred.resolve();
+    });
+    
+    return deferred.promise;
+  };
+  
+  syncService.SyncFriends = function(lastSyncDate) {
+    var deferred = $q.defer();      
+    
+    syncService.AWSService.ListBucket('friends/')
+    .then(function (remoteFriends){
+      //Get all local posts
+      friendService.GetFriends()
+      .then(function(localFriends) {
+        return syncService.ProcessArrays('friends', localFriends, remoteFriends);
+      })
+      .then(function() {
+        return deferred.resolve();
+      }); 
+    });
+    
+    return deferred.promise;
+  };
+  
+  syncService.SyncPosts = function(lastSyncDate) {
+    var deferred = $q.defer();      
+    
+    syncService.AWSService.ListBucket('posts/')
+    .then(function (remotePosts) {      
+      //Get all local posts
+      postService.GetPosts()
+      .then(function(localPosts) {
+        return syncService.ProcessArrays('posts', localPosts, remotePosts);
+      })
+      .then(function() {
+        return deferred.resolve();
+      });       
     });
     
     return deferred.promise;
@@ -155,30 +191,6 @@ function(uuid, $q, awsService,
     
     return output;
   }
-  
-  syncService.SyncFriends = function(lastSyncDate) {
-    var deferred = $q.defer();      
-    
-    syncService.AWSService.ListBucket('friends/')
-    .then(function (data){
-      
-      return deferred.resolve();
-    });
-    
-    return deferred.promise;
-  };
-  
-  syncService.SyncPosts = function(lastSyncDate) {
-    var deferred = $q.defer();      
-    
-    syncService.AWSService.ListBucket('posts/')
-    .then(function (data){
-      
-      return deferred.resolve();
-    });
-    
-    return deferred.promise;
-  };
  
   return syncService;
 }]);

@@ -22,7 +22,7 @@ function(uuid, pouchDB, $q, broadcastService) {
   friendService.uuid = uuid;
   
   //Add the getFriends method
-  friendService.getFriends = function() {
+  friendService.GetFriends = function() {
     var deferred = $q.defer();
 
     friendService.db.allDocs({ include_docs: true, attachments: true })
@@ -39,7 +39,7 @@ function(uuid, pouchDB, $q, broadcastService) {
     return deferred.promise;
   };
   
-  friendService.getFriend = function(id) {
+  friendService.GetFriend = function(id) {
     var deferred = $q.defer();
     
     friendService.db.get(id)
@@ -51,7 +51,7 @@ function(uuid, pouchDB, $q, broadcastService) {
   }
   
   //Create a new friend
-  friendService.newFriend = function(){
+  friendService.NewFriend = function(){
     var friend = {};
     friend._id = friendService.uuid.v4();
     friend.FirstName = "";
@@ -65,7 +65,7 @@ function(uuid, pouchDB, $q, broadcastService) {
   };
 
   //Load a friend from database
-  friendService.loadFriend = function(id) {
+  friendService.LoadFriend = function(id) {
     var deferred = $q.defer();
 
     friendService.db.get(id)
@@ -77,7 +77,7 @@ function(uuid, pouchDB, $q, broadcastService) {
   };
   
   //Save a friend to the database
-  friendService.saveFriend = function (friend) {
+  friendService.SaveFriend = function (friend) {
     var deferred = $q.defer();
     
     friend.LastModifiedDateTime = Date.now();

@@ -122,6 +122,32 @@ function(uuid, pouchDB, $q, broadcastService) {
     return deferred.promise;  
   };
   
+  postService.GetPosts = function() {
+    var deferred = $q.defer();
+    
+    postService.db.allDocs({
+                            include_docs: true,
+                            attachments: true
+                          })
+    .then(function (posts) {
+      var output = [];
+
+      if (posts != null && posts.rows != null) {
+        for (var i = 0, len = posts.rows.length; i < len; i++) { 
+          var place = posts.rows[i];
+          output.push(place.doc);
+        }
+      }      
+      
+      deferred.resolve(output)
+    }).catch(function (err) {
+      console.log(err);
+      deferred.resolve(null);
+    });
+
+    return deferred.promise; 
+  }
+  
   //Returns posts in a time period
   postService.GetPostsInRange = function(startDate, endDate) {
     var deferred = $q.defer();
