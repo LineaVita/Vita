@@ -20,7 +20,7 @@ function(uuid, pouchDB, $q, broadcastService) {
   //Create an index for dates
   postService.db.createIndex(dateIndex)
   .then(function() {
-    return postService.db.createIndex({ index: { fields: ['LastModifiedDateTime'] } });
+    return postService.db.createIndex({ index: { name:"lastmodifiedindex", fields: ['LastModifiedDateTime'] } });
   })
   .then(function() {
     postService.Ready = true;

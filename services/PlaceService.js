@@ -169,9 +169,16 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
       var output = [];
 
       if (places != null && places.rows != null) {
-        for (i = 0, len = places.rows.length; i < len; i++) { 
-          var place = places.rows[i];
-          output.push(place.doc);
+        for (var i = 0, len = places.rows.length; i < len; i++) { 
+          var place = places.rows[i].doc;
+          
+          var id = place._id;
+          if (id != null) {
+            var idStart = id.substring(0, 7);
+            if (idStart != "_design") {
+              output.push(place);
+            }
+          }
         }
       }      
       

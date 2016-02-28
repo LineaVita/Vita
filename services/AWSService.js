@@ -75,6 +75,31 @@ function($rootScope, $q, $mdToast, configService, toastService) {
     return deferred.promise;
   }
   
+  awsService.GetFile = function(key) {
+    var deferred = $q.defer();
+    
+    AWS.config.update(awsService.Credentials);
+    AWS.config.region = awsService.Configuration.AWSRegion;
+    
+    var params = {
+      Bucket: awsService.Configuration.AWSBucketName,
+      Key: key
+    };
+    
+    var s3 = new AWS.S3();
+    
+    s3.getObject(params, function(err, data) {
+      if (err) { 
+        console.log(err, err.stack); // an error occurred
+        deferred.resolve(null);
+      } else {
+        deferred.resolve(data);
+      }     
+    });
+    
+    return deferred.promise;
+  }
+  
   awsService.UploadFile = function(objectType, filename, filetype, file) {
     // Configure The S3 Object 
     AWS.config.update(awsService.Credentials);

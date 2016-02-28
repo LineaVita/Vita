@@ -144,6 +144,9 @@ function(uuid, $q, awsService,
     
     syncService.SendAllToServer(type, localsToPush)
     .then(function() {
+      return syncService.PullAllFromServer(type, serverToGet);
+    })
+    .then(function() {
       deferred.resolve();
     })
     
@@ -170,7 +173,28 @@ function(uuid, $q, awsService,
   }
   
   syncService.PullAllFromServer = function(type, items) {
+    var deferred = $q.defer();
+    var promises = [];
     
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
+            
+      var promise = syncService.AWSService.GetFile(item.Key);
+      promises.push(promise);
+    }
+    
+    $q.all(promises)
+    .then(function(values) {
+      for (var j=0; j< values.length; j++) {
+        var value = values[j];
+        
+        console.log(value)
+      }
+      
+      deferred.resolve();
+    });
+        
+    return deferred.promise;    
   }
   
   syncService.FindInList = function(id, list, remove) {

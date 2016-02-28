@@ -9,9 +9,9 @@ function(uuid, pouchDB, $q, broadcastService) {
   friendService.db = pouchDB("friends");
   
   //Create an index for Friend by Name
-  friendService.db.createIndex({ index: { fields: ['LastName', 'FirstName'] } })
+  friendService.db.createIndex({ index: { name: "nameindex", fields: ['LastName', 'FirstName'] } })
   .then(function() {
-    return friendService.db.createIndex({ index: { fields: ['LastModifiedDateTime'] } });
+    return friendService.db.createIndex({ index: { name:"lastmodifiedindex", fields: ['LastModifiedDateTime'] } });
   })
   .then(function() {
     friendService.Ready = true;
@@ -26,11 +26,19 @@ function(uuid, pouchDB, $q, broadcastService) {
     var deferred = $q.defer();
 
     friendService.db.allDocs({ include_docs: true, attachments: true })
-    .then(function(docs){
+    .then(function(friends){
       var output = [];
 
-      for (i = 0, len = docs.rows.length; i < len; i++) { 
-          output.push(docs.rows[i].doc);
+      for (var i = 0, len = friends.rows.length; i < len; i++) { 
+        var friend = friends.rows[i].doc;
+          
+        var id = friend._id;
+        if (id != null) {
+          var idStart = id.substring(0, 7);
+          if (idStart != "_design") {
+            output.push(friend);
+          }
+        }
       }
 
       deferred.resolve(output);
