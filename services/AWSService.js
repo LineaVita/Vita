@@ -93,7 +93,12 @@ function($rootScope, $q, $mdToast, configService, toastService) {
         console.log(err, err.stack); // an error occurred
         deferred.resolve(null);
       } else {
-        deferred.resolve(data);
+        if (data != null) {
+          var temp = String.fromCharCode.apply(String, data.Body);
+          deferred.resolve(JSON.parse(temp));
+        } else {
+          deferred.resolve(null);
+        }        
       }     
     });
     

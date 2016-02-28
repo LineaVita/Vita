@@ -38,7 +38,7 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
   .then(function() {
     placeService.NameIndexReady = true;
     
-    return placeService.db.createIndex({ index: { fields: ['LastModifiedDateTime'] } });
+    return placeService.db.createIndex({ index: { name:"lastmodifiedindex", fields: ['LastModifiedDateTime'] } });
   })
   .then(function() {
     placeService.LastModifiedIndexReady = true;
