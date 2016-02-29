@@ -85,7 +85,11 @@ function(uuid, pouchDB, $q, broadcastService) {
   };
   
   //Save a friend to the database
-  friendService.SaveFriend = function (friend) {
+  friendService.SaveFriend = function (friend, broadcastSave) {
+    if (broadcastSave == null) {
+      broadcastSave = true;
+    }
+
     var deferred = $q.defer();
     
     friend.LastModifiedDateTime = Date.now();
@@ -97,7 +101,9 @@ function(uuid, pouchDB, $q, broadcastService) {
 
         friendService.db.post(friend)
         .then(function(output) {
-          friendService.Broadcast.Send('FriendSaved', friend);
+          if (broadcastSave) {
+            friendService.Broadcast.Send('FriendSaved', friend);  
+          }
           
           deferred.resolve(output);
         });
@@ -112,7 +118,9 @@ function(uuid, pouchDB, $q, broadcastService) {
             //Perform a put on the friend
             friendService.db.put(friend)
             .then(function(output) {
-              friendService.Broadcast.Send('FriendSaved', friend);
+              if (broadcastSave) {
+                friendService.Broadcast.Send('FriendSaved', friend);
+              }
               
               deferred.resolve(output);
             });
@@ -120,14 +128,29 @@ function(uuid, pouchDB, $q, broadcastService) {
             //Didn't find the doc so just save the new one
             friendService.db.post(friend)
             .then(function(output) {
-              friendService.Broadcast.Send('FriendSaved', friend);
+              if (broadcastSave) {
+                friendService.Broadcast.Send('FriendSaved', friend);
+              }
               
               deferred.resolve(output);
             });
           }
         })
         .catch(function (err) {
-          console.log(err);
+          if (err.status == 404) {
+            friendService.db.post(friend)
+            .then(function(output) {
+              if (broadcastSave) {
+                friendService.Broadcast.Send('FriendSaved', friend);  
+              }
+
+              deferred.resolve(output);
+            });            
+          } else {
+            console.log(err);
+          }
+          
+          deferred.resolve(null);
         });   
       }
     }

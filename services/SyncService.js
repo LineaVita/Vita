@@ -188,6 +188,7 @@ function(uuid, $q, awsService,
       for (var j=0; j< values.length; j++) {
         var value = values[j];
         
+        syncService.Save(type, value);        
         console.log(value)
       }
       
@@ -216,6 +217,18 @@ function(uuid, $q, awsService,
     }
     
     return output;
+  }
+  
+  syncService.Save = function(type, item) {
+    if (type == "posts"){
+      return postService.SavePost(item, false);
+    } else if (type == "places") {
+      return placeService.SavePlace(item, false);
+    } else if (type == "friends") {
+      return friendService.SaveFriend(item, false);
+    } else if (type == "files") {
+      
+    }
   }
  
   return syncService;

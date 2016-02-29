@@ -96,7 +96,10 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
     return deferred.promise;
   }
   
-  placeService.SavePlace = function(entry) {
+  placeService.SavePlace = function(entry, broadcastSave) {
+    if (broadcastSave == null) {
+      broadcastSave = true;
+    }
     var deferred = $q.defer();
     
     entry.LastModifiedDateTime = Date.now();
@@ -108,7 +111,9 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
 
         placeService.db.post(entry)
         .then(function(output) {
-          placeService.Broadcast.Send('PlaceSaved', entry);
+          if (broadcastSave) {
+            placeService.Broadcast.Send('PlaceSaved', entry);
+          }
           
           return deferred.resolve(output);
         });
@@ -124,20 +129,39 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
             //Save the post to db
             placeService.db.put(entry)
             .then(function(output) {
-              placeService.Broadcast.Send('PlaceSaved', entry);
-              
+              if (broadcastSave) {
+                placeService.Broadcast.Send('PlaceSaved', entry);
+              }
               deferred.resolve(output);
             });
           } else {
             //not found so a new post
             placeService.db.post(entry)
             .then(function(output) {
-              placeService.Broadcast.Send('PlaceSaved', entry);
+              if (broadcastSave) {
+                placeService.Broadcast.Send('PlaceSaved', entry);
+              }
               
               deferred.resolve(output);
             });
           }
-        });   
+        })
+        .catch(function (err) {
+          if (err.status == 404) {
+            placeService.db.post(entry)
+            .then(function(output) {
+              if (broadcastSave) {
+                placeService.Broadcast.Send('PlaceSaved', entry);  
+              }
+
+              deferred.resolve(output);
+            });            
+          } else {
+            console.log(err);
+          }
+          
+          deferred.resolve(null);
+        });     
       }
     }
     
