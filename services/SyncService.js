@@ -160,7 +160,7 @@ function(uuid, $q, awsService,
     for (i = 0; i < items.length; i++) {
       var item = items[i];
             
-      var promise = syncService.AWSService.Save(type, item);
+      var promise = syncService.AWSService.Save(type, item, false);
       promises.push(promise);
     }
     
