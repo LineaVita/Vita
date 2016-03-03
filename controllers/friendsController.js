@@ -5,5 +5,4 @@ vitaApp.controller('friendsController', ['$scope', '$location', 'FriendService',
       .then(function(friends) {
         $scope.Friends = friends 
       });
- 
 }]);

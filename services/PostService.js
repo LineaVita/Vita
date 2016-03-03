@@ -96,6 +96,7 @@ function(uuid, pouchDB, $q, broadcastService) {
         })
         .catch(function (err) {
           if (err.status == 404) {
+            //Didn't find the item so it is a new item
             postService.db.post(entry)
             .then(function(output) {
               if (broadcastSave) {
@@ -109,7 +110,7 @@ function(uuid, pouchDB, $q, broadcastService) {
           }
           
           deferred.resolve(null);
-        });  ;   
+        });
       }
     }
     

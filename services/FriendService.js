@@ -138,6 +138,7 @@ function(uuid, pouchDB, $q, broadcastService) {
         })
         .catch(function (err) {
           if (err.status == 404) {
+            //Didn't find the item so it is a new item
             friendService.db.post(friend)
             .then(function(output) {
               if (broadcastSave) {
@@ -158,7 +159,7 @@ function(uuid, pouchDB, $q, broadcastService) {
     return deferred.promise;   
   };
   
-   friendService.GetFriendsModifiedSince = function(startDate) {
+  friendService.GetFriendsModifiedSince = function(startDate) {
     var deferred = $q.defer();
     
     var select = {

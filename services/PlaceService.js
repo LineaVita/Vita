@@ -148,7 +148,8 @@ function(uuid, pouchDB, $q, broadcastService, geodesyService) {
         })
         .catch(function (err) {
           if (err.status == 404) {
-            placeService.db.post(entry)
+            //Didn't find the item so it is a new item
+            placeService.db.post(entry)            
             .then(function(output) {
               if (broadcastSave) {
                 placeService.Broadcast.Send('PlaceSaved', entry);  
